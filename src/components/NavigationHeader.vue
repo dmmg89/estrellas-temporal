@@ -92,16 +92,19 @@ const backInitNav = (): void => {
 
 <style scoped>
 .app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 12px;
+  padding: 12px 16px;
   background-color: white;
   color: black;
-  width: 100%;
-  margin: 0 auto;
-  margin-top: 3%;
   box-sizing: border-box;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .logo{
@@ -137,13 +140,13 @@ const backInitNav = (): void => {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;  /* Define un ancho fijo */
-  height: 40px; /* Define un alto fijo (igual al ancho) */
-  border-radius: 50%; /* Esto crea el círculo */
-  flex-shrink: 0; /* ¡MUY IMPORTANTE! Evita que el botón se encoja */
-  overflow: hidden; /* Oculta cualquier parte del icono que se salga */
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  overflow: hidden;
   cursor: pointer;
-  background-color: #E4E8F7; /* Un color de fondo opcional */
+  background-color: #E4E8F7;
   border: none;
 }
 

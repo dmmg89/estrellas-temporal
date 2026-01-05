@@ -1,98 +1,79 @@
 <script setup lang="ts">
 import NavigationHeader from "./components/NavigationHeader.vue";
 import ErrorLottie from "./components/ErrorLottie.vue";
+import { RouterLink, RouterView } from 'vue-router'
 
 
 
-const backInitNav = (): void => {
 
-  console.log("Ejecutando Salida");
-
-  if (window.webkit?.messageHandlers?.backModule) {
-    window.webkit.messageHandlers.backModule.postMessage("Clicked Init IOS");
-    console.log("Called iOS backModule");
-  } else if (window.AndroidInterface?.backModule) {
-    window.AndroidInterface.backModule("Clicked Init ANDROID");
-    console.log("Called Android backModule");
-  } else {
-    console.warn("Native backModule interface not found.");
-  }
-};
 
 
 </script>
 
 <template>
-  <NavigationHeader/>
+  <NavigationHeader />
+  <RouterView />
 
-  <div class="error-container"> <div class="error-content">
-    <ErrorLottie/>
-    <p class="error-title">Lo sentimos</p>
-    <div>
-      <p>
-        Estamos <b>experimentando intermitencias</b>. Por favor, inténtelo de nuevo más tarde.
-      </p>
-    </div>
-    <div>
-      <b class="error-bottom">Gracias.</b>
-    </div>
 
-    <button class="exit-button"  @click="backInitNav">Salir</button>
-
-  </div>
-  </div>
 </template>
 
+<style>
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+body {
+  background-color: #ffffff;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+}
+</style>
+
 <style scoped>
-.error-container {
+.container {
+  min-height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 60px);
   text-align: center;
-  padding: 20px;
-  box-sizing: border-box;
-  padding-bottom: 15vh;
 }
 
-.error-content {
-  max-width: 600px;
-  width: 100%;
-  padding: 20px;
-  border-radius: 8px;
+.main-image {
+  width: 200px; /* ajusta el tamaño de la imagen según necesites */
+  height: auto;
+  margin-bottom: 2em; /* Espacio entre la imagen y el texto */
 }
 
-.error-title {
-  color: darkblue;
-  font-size: 18px;
+p {
+  font-size: 1.1rem;
+  color: #333;
   font-weight: bold;
-  margin-bottom: 15px;
-  margin-top: 25px;
-
 }
 
-/* Estilos para el párrafo del mensaje */
-.error-content p {
-  font-size: 16px;
-  line-height: 1.5;
-  margin-bottom: 10px;
+
+* {
+  margin: 0;
+  padding: 0;
 }
 
-.error-bottom{
-  font-size: 16px;
+html, body {
+  height: 100%;
+  overflow: hidden;
 }
 
-.exit-button{
-  outline: none;
-  border: none;
-  background-color: #E71618;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  margin: 10%;
-  padding: 3%  15%;
-  border-radius: 16px;
+body {
+  overflow-y: scroll;
+}
 
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
 }
 
 </style>
