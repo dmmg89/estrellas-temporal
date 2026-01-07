@@ -232,7 +232,7 @@ const chartOptions = computed<ChartOptions<'line'>>(() => {
 }
 .custom-legend {
   display: flex;
-  justify-content: flex-start; 
+  justify-content: flex-start;
   gap: 20px;
   padding-left: 10px;
   margin-top: 10px;
