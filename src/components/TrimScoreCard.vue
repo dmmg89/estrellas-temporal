@@ -4,33 +4,59 @@ import { computed } from 'vue';
 const props = defineProps<{
   trimScore: number;
   zone: string;
+  currentWeek: number;
 }>();
 
 const MIN_VALUE = 0;
 const MAX_VALUE = 5;
-const RADIUS = 80;
-const STROKE_WIDTH = 18;
-const ARC_LENGTH = Math.PI * RADIUS; // Longitud de un semicírculo (PI * r)
+const RADIUS = 90;
+const ARC_LENGTH = Math.PI * RADIUS;
+
+const DIVISIONS = 4;
+const OUTER_RADIUS = 92;
+
+const divisionLines = computed(() => {
+  const lines = [];
+
+  const step = Math.PI / (DIVISIONS + 1);
+
+  for (let i = 1; i <= DIVISIONS; i++) {
+    const angle = Math.PI - (step * i);
+    // Convertir Polar a Cartesiano
+    // Centro es 100, 100
+    const x2 = 100 + OUTER_RADIUS * Math.cos(angle);
+    const y2 = 100 - OUTER_RADIUS * Math.sin(angle);
+    lines.push({ x2, y2 });
+  }
+  return lines;
+});
 
 const clampedScore = computed(() => {
   return Math.min(Math.max(props.trimScore, MIN_VALUE), MAX_VALUE);
 });
 
 const formattedScore = computed(() => {
-  return props.trimScore.toFixed(2).replace('.', ',');
+  return props.trimScore.toFixed(2);
 });
 
 const strokeDashoffset = computed(() => {
   const percentage = clampedScore.value / MAX_VALUE;
-  // Calculamos cuánto falta por llenar (el offset empieza lleno y se reduce)
-  // En SVG dasharray, el offset 0 es lleno, el offset = largo es vacío.
-  // Pero como queremos llenar de izq a derecha, invertimos la lógica visualmente.
   return ARC_LENGTH * (1 - percentage);
 });
 
-// Mensaje dinámico basado en la calificación (puedes personalizar esto)
+const arrowRotation = computed(() => {
+  const percentage = clampedScore.value / MAX_VALUE;
+  const degrees = (percentage * 180) - 90;
+  return `rotate(${degrees}deg)`;
+});
+
+const weekRangeText = computed(() => {
+  const startWeek = props.currentWeek - 5;
+  return `S${startWeek} a S${props.currentWeek}`;
+});
+
 const feedbackMessage = computed(() => {
-  if (props.trimScore >= 4.5) return '¡Excelente trabajo!';
+  if (props.trimScore >= 4.5) return '¡Van por excelente camino!';
   if (props.trimScore >= 3.5) return '¡Sigue trabajando en ello!';
   return 'Podemos mejorar';
 });
@@ -38,25 +64,33 @@ const feedbackMessage = computed(() => {
 
 <template>
   <div class="trim-score-card">
+    <div class="badge-quarter">
+      Calificación 4Q
+    </div>
+
     <div class="header">
       <h2 class="zone-title">{{ zone }}</h2>
-      <span class="period-subtitle">Trimestre</span>
+      <span class="period-subtitle">Trimestral</span>
+      <div class="week-range">{{ weekRangeText }}</div>
     </div>
 
     <div class="gauge-container">
-      <svg class="gauge-svg" viewBox="0 0 200 110">
+      <svg class="gauge-svg" viewBox="0 -10 200 130">
         <defs>
           <linearGradient id="starGradient" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
             <stop offset="100%" style="stop-color:#FBBF24;stop-opacity:1" />
           </linearGradient>
+          <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="rgba(0,0,0,0.3)"/>
+          </filter>
         </defs>
 
         <path
             d="M 20 100 A 80 80 0 0 1 180 100"
             fill="none"
             stroke="#E5E7EB"
-            :stroke-width="STROKE_WIDTH"
+            stroke-width="10"
             stroke-linecap="round"
         />
 
@@ -64,30 +98,40 @@ const feedbackMessage = computed(() => {
             d="M 20 100 A 80 80 0 0 1 180 100"
             fill="none"
             stroke="#32c759"
-            :stroke-width="STROKE_WIDTH"
+            stroke-width="10"
             stroke-linecap="round"
             stroke-dasharray="251.32"
             :stroke-dashoffset="strokeDashoffset"
             class="progress-bar"
         />
 
-        <line x1="100" y1="100" x2="43" y2="43" stroke="white" stroke-width="4" />
-        <line x1="100" y1="100" x2="100" y2="20" stroke="white" stroke-width="4" />
-        <line x1="100" y1="100" x2="157" y2="43" stroke="white" stroke-width="4" />
+        <g stroke="white" stroke-width="2"> <line
+            v-for="(line, index) in divisionLines"
+            :key="index"
+            x1="100"
+            y1="100"
+            :x2="line.x2"
+            :y2="line.y2"
+        />
+        </g>
+
+        <g class="arrow-group" :style="{ transformOrigin: '100px 100px', transform: arrowRotation }">
+          <path
+              d="M 92 12 L 100 0 L 108 12 L 100 24 Z"
+              fill="#32c759"
+              stroke="white"
+              stroke-width="2"
+              filter="url(#shadow)"
+          />
+        </g>
+
+        <text x="5" y="125" class="limit-text">0.00</text>
+        <text x="195" y="125" class="limit-text" text-anchor="end">5.00</text>
       </svg>
 
-      <div class="limits">
-        <span class="limit-text">0.00</span>
-        <span class="limit-text">5.00</span>
-      </div>
-
       <div class="star-container">
-        <svg
-            viewBox="0 0 24 24"
-            class="star-icon-3d"
-            fill="url(#starGradient)"
-        >
-          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+        <svg viewBox="0 0 24 24" class="star-icon-3d">
+          <path fill="url(#starGradient)" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" />
         </svg>
       </div>
     </div>
@@ -101,73 +145,83 @@ const feedbackMessage = computed(() => {
 
 <style scoped>
 .trim-score-card {
-  font-family: system-ui, -apple-system, sans-serif;
-  max-width: 320px;
-  background: white;
-  padding: 1.5rem;
+  position: relative;
+  width: 380px;
+  padding: 6px;
   border-radius: 16px;
-  /* box-shadow: 0 4px 20px rgba(0,0,0,0.05); Opcional si quieres tarjeta flotante */
-  text-align: center;
+}
+
+.badge-quarter {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background-color: #3EC53E;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 0 12px;
+  font-weight: 600;
+  font-size: 0.85rem;
 }
 
 .header {
   text-align: left;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .zone-title {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 800;
   color: #333;
 }
 
 .period-subtitle {
-  color: #32c759;
-  font-weight: 600;
+  color: #3EC53E;
+  font-weight: 700;
+  font-size: 1rem;
+  display: block;
+}
+
+.week-range {
+  color: #9CA3AF;
   font-size: 0.9rem;
+  font-weight: 500;
+  margin-top: 2px;
 }
 
 .gauge-container {
   position: relative;
   width: 100%;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .gauge-svg {
   width: 100%;
   height: auto;
-  overflow: visible; /* Importante para que no corte los bordes redondeados */
+  overflow: visible;
 }
 
-/* Animación de la barra */
 .progress-bar {
-  transition: stroke-dashoffset 0.8s ease-out;
+  transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.limits {
-  display: flex;
-  justify-content: space-between;
-  position: absolute;
-  width: 100%;
-  bottom: 10px; /* Ajustar según posición visual */
-  padding: 0 10px;
-  box-sizing: border-box;
+.arrow-group {
+  transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .limit-text {
-  color: #9CA3AF;
+  fill: #9CA3AF;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.6rem;
 }
 
 .star-container {
   position: absolute;
-  bottom: -5px; /* Ajuste fino para centrarla en la base */
+  bottom: 0px;
   left: 50%;
   transform: translateX(-50%);
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -176,30 +230,30 @@ const feedbackMessage = computed(() => {
 .star-icon-3d {
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 4px 3px rgba(0,0,0,0.2));
-  fill: #FBBF24; /* Fallback color */
+  filter: drop-shadow(0 4px 6px rgba(251, 191, 36, 0.4));
 }
 
-/* El path de la estrella necesita un color base si el gradiente falla */
 .star-icon-3d path {
-  fill: #FBBF24;
+  stroke: #D97706;
+  stroke-width: 0.5;
+  stroke-linejoin: round;
 }
 
 .score-display {
-  margin-top: 10px;
+  margin-top: 0px;
+  text-align: center;
 }
 
 .score-number {
-  color: #32c759;
-  font-size: 1.8rem;
+  color: #3EC53E;
+  font-size: 2rem;
   font-weight: 900;
-  line-height: 1;
 }
 
 .score-message {
   color: #6B7280;
-  font-size: 0.9rem;
-  font-weight: 500;
-  margin-top: 5px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-top: 2px;
 }
 </style>

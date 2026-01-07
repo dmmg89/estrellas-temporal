@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import type { RouteRecordRaw } from 'vue-router';
+import ProfileSelector from "../ProfileSelector.vue"
 import LeaderScreen from "../views/LeaderScreen.vue";
 import RegionScreen from "../views/RegionScreen.vue";
 import TerritorioScreen from "../views/TerritoryScreen.vue";
@@ -21,6 +22,7 @@ export enum ProfilePath{
 
 export enum ScreenName{
     error = 'error',
+    selector = 'selector',
     leader = 'lider',
     region='regional',
     territory='territorio',
@@ -32,7 +34,8 @@ const routes:Array<RouteRecordRaw> =
     [
         {
             path: ProfilePath.selectorPath,
-            redirect: ProfilePath.corpoScreen
+            name: ScreenName.selector,
+            component: ProfileSelector
         },
         {
             path: ProfilePath.corpoScreen,
@@ -53,6 +56,10 @@ const routes:Array<RouteRecordRaw> =
             path: ProfilePath.errorScreen,
             name: ScreenName.error,
             component: ErrorScreen
+        },
+        {
+            path: '/:pathMatch(.*)*',
+            redirect: ProfilePath.selectorPath
         }
     ]
 

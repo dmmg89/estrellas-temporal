@@ -38,10 +38,13 @@ export interface PropsData {
   history: HistoryItem[];
 }
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   data: PropsData;
   title?: string;
-}>();
+  divisions?: number; // Nueva prop para controlar "n" divisiones
+}>(), {
+  divisions: 5 // Valor por defecto si no se especifica
+});
 
 const COLORS = {
   blueLine: '#5B93FF',
@@ -49,7 +52,7 @@ const COLORS = {
   grayAreaBg: 'rgba(229, 231, 235, 0.5)',
   grayAreaBorder: 'transparent',
   greenAnnotation: '#32c759',
-  gridLines: '#F3F4F6',
+  gridLines: '#626260',
   textGray: '#9CA3AF'
 };
 
@@ -152,13 +155,17 @@ const chartOptions = computed<ChartOptions<'line'>>(() => {
       },
       y: {
         min: 3.8,
-        max: 5.1,
+        max: 5.0,
         grid: {
           color: COLORS.gridLines,
+          tickLength: 0,
+        },
+        border: {
+          display: false, // Oculta la línea vertical del eje Y si quieres un look más limpio
         },
         ticks: {
           color: COLORS.textGray,
-          stepSize: 0.5,
+          count: props.divisions, // Fuerza "n" divisiones
           callback: function(value) {
             return typeof value === 'number' ? value.toFixed(2) : value;
           }
@@ -187,15 +194,26 @@ const chartOptions = computed<ChartOptions<'line'>>(() => {
           :options="chartOptions"
       />
     </div>
+
+    <div class="custom-legend">
+      <div class="legend-item">
+        <span class="dot actual-dot"></span>
+        <span class="legend-text">Año Actual</span>
+      </div>
+      <div class="legend-item">
+        <span class="dot goal-dot"></span>
+        <span class="legend-text">Objetivo</span>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .history-chart-card {
-  background-color: #F9FAFB;
+  background-color: #F6F7F9;
   border-radius: 24px;
-  padding: 1.5rem;
-  font-family: system-ui, -apple-system, sans-serif;
+  padding: 12px 0;
+  margin-top: 12px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.03);
 }
 
@@ -211,5 +229,39 @@ const chartOptions = computed<ChartOptions<'line'>>(() => {
   position: relative;
   height: 250px;
   width: 100%;
+}
+.custom-legend {
+  display: flex;
+  justify-content: flex-start; 
+  gap: 20px;
+  padding-left: 10px;
+  margin-top: 10px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.legend-text {
+  font-size: 0.85rem;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+.actual-dot {
+  background-color: #1A73E8;
+}
+
+.goal-dot {
+  background-color: #D93025;
 }
 </style>

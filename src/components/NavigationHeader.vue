@@ -116,7 +116,6 @@ const backInitNav = (): void => {
 }
 
 .logo h1 {
-  font-family: 'Poppins';
   font-weight: 600;
   text-align: left;
   font-size: 1.1rem;

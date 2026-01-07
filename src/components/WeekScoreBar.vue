@@ -55,16 +55,17 @@ const formattedScore = computed((): string => {
 
 <style scoped>
 .week-score-bar {
-  font-family: system-ui, -apple-system, sans-serif;
   max-width: 400px;
-  padding: 1rem;
+  padding: 0 1rem;
+  text-align: left;
 }
 
 .label {
-  color: #5CB85C;
+  color: #3EC53E;
   font-weight: 700;
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
+
 }
 
 .bar-wrapper {
@@ -89,7 +90,7 @@ const formattedScore = computed((): string => {
 
 .fill {
   height: 100%;
-  background-color: #32c759;
+  background-color: #3EC53E;
   border-radius: 10px;
   position: relative;
   transition: width 0.3s ease-in-out;
@@ -98,7 +99,7 @@ const formattedScore = computed((): string => {
 .marker-container {
   position: absolute;
   right: 0;
-  top: 50%;
+  top: 120%;
   transform: translate(50%, -50%);
   display: flex;
   flex-direction: column;
@@ -114,7 +115,7 @@ const formattedScore = computed((): string => {
 }
 
 .score-value {
-  color: #32c759;
+  color: #3EC53E;
   font-weight: 800;
   font-size: 1rem;
   margin-top: 2px;
