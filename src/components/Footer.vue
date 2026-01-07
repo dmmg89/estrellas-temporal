@@ -32,7 +32,7 @@
 }
 
 .disclaimer {
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 500;
   margin: 0 0 8px 0;
   line-height: 1.4;

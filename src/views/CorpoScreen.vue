@@ -58,19 +58,23 @@ watch(
       <LoadingLottie/>
     </div>
 
-    <div v-else-if="!isLoading && scoreData" class="body-content">
+    <div v-else-if="!isLoading && scoreData" class="success-wrapper">
 
-      <TrimScoreCard
-          :trim-score="scoreData.califTrimestre"
-          zone="Corporativo"
-          :current-week="week"
-      />
+      <div class="body-content">
+        <TrimScoreCard
+            :trim-score="scoreData.califTrimestre"
+            zone="Corporativo"
+            :current-week="week"
+        />
 
-      <WeekScoreBar :score="scoreData.califSemana" />
+        <WeekScoreBar :score="scoreData.califSemana" />
 
-      <HistoryChart title="Tendencia" :data="historyList" />
-      <RankingList title="Divisiones" :week="week" :items="rankingList" />
+        <HistoryChart title="Tendencia" :data="historyList" />
+        <RankingList title="Divisiones" :week="week" :items="rankingList" />
+      </div>
+
       <Footer/>
+
     </div>
 
     <div v-else class="error-state">
@@ -81,9 +85,26 @@ watch(
 </template>
 
 <style scoped>
-.body-content{
-  padding: 0;
 
+.success-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%; /* Opcional: ayuda a ocupar altura */
 }
 
+.body-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+  padding: 20px 10px;
+  box-sizing: border-box;
+}
+
+.body-content > * {
+  width: 100%;
+  max-width: 380px;
+}
 </style>

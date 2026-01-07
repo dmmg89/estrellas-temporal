@@ -40,7 +40,7 @@ const options = ref<WeekOption[]>([]);
 
 onMounted(() => {
   // const currentWeek = getCurrentWeekNumber();
-  const currentWeek = 50;
+  const currentWeek = 49;
   // const currentYear = new Date().getFullYear();
   const currentYear = 2025;
 

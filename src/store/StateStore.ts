@@ -20,7 +20,7 @@ export const useStateStore = defineStore('stateStore', {
         isLoading: false,
         level: 0,
         ceco: 0,
-        week: 50,
+        week: 49,
         screen: 'selector',
         history: []
     }),

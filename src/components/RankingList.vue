@@ -90,7 +90,9 @@ const handleClick = async (item: RankingItemNumeric) => {
     <div class="header">
       <div class="title-section">
         <div class="header-row">
-          <span class="map-icon">🗺️</span>
+          <span class="map-icon">
+            <img src="../assets/icons/ic_map_ranking.svg">
+          </span>
           <h2 class="title">{{ title }}</h2>
         </div>
         <p class="subtitle">Semana {{ week }}</p>
@@ -98,22 +100,10 @@ const handleClick = async (item: RankingItemNumeric) => {
 
       <button class="sort-btn" @click="toggleSort">
         <div class="sort-icon-wrapper">
-          <svg v-if="isDescending" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 19V5"/>
-            <path d="M5 12l7 7 7-7"/>
-          </svg>
-          <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 5v14"/>
-            <path d="M19 12l-7-7-7 7"/>
-          </svg>
+          <img src="../assets/icons/ic_switch.svg">
         </div>
         <div class="medal-wrapper">
-          <svg class="medal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="8" r="7"/>
-            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
-          </svg>
+          <img src="../assets/icons/ic_ranking_score.svg">
           <span class="sort-label">Calificación</span>
         </div>
       </button>

@@ -10,15 +10,12 @@ const props = defineProps<{
 const MIN_VALUE = 0;
 const MAX_VALUE = 5;
 
-// --- CORRECCIÓN AQUÍ ---
-// El radio debe ser 80 para coincidir con el path del SVG (A 80 80)
 const RADIUS = 80;
-const ARC_LENGTH = Math.PI * RADIUS; // Ahora dará aprox 251.32, coincidiendo con el dasharray
+const ARC_LENGTH = Math.PI * RADIUS;
 
 const DIVISIONS = 4;
 const OUTER_RADIUS = 92;
 
-// ... (El resto de la lógica de safeScore se mantiene igual) ...
 const safeScore = computed(() => {
   const val = props.trimScore;
   if (val === null || val === undefined || val === '') return 0;
@@ -63,7 +60,6 @@ const arrowRotation = computed(() => {
   return `rotate(${degrees}deg)`;
 });
 
-// ... (Resto de computed properties: weekRangeText, feedbackMessage) ...
 const weekRangeText = computed(() => {
   const startWeek = props.currentWeek - 5;
   return `S${startWeek} a S${props.currentWeek}`;
@@ -145,9 +141,7 @@ const feedbackMessage = computed(() => {
       </svg>
 
       <div class="star-container">
-        <svg viewBox="0 0 24 24" class="star-icon-3d">
-          <path fill="url(#starGradient)" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" />
-        </svg>
+        <img src="../assets/icons/ic_big_star.svg">
       </div>
     </div>
 
@@ -186,7 +180,7 @@ const feedbackMessage = computed(() => {
 
 .zone-title {
   margin: 0;
-  font-size: 1.4rem;
+  font-size: 16px;
   font-weight: 800;
   color: #333;
 }
@@ -194,13 +188,13 @@ const feedbackMessage = computed(() => {
 .period-subtitle {
   color: #3EC53E;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 14px;
   display: block;
 }
 
 .week-range {
   color: #9CA3AF;
-  font-size: 0.9rem;
+  font-size: 14px;
   font-weight: 500;
   margin-top: 2px;
 }
@@ -228,12 +222,12 @@ const feedbackMessage = computed(() => {
 .limit-text {
   fill: #9CA3AF;
   font-weight: 600;
-  font-size: 0.6rem;
+  font-size: 0.5rem;
 }
 
 .star-container {
   position: absolute;
-  bottom: 0px;
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
   width: 70px;
@@ -243,17 +237,7 @@ const feedbackMessage = computed(() => {
   justify-content: center;
 }
 
-.star-icon-3d {
-  width: 100%;
-  height: 100%;
-  filter: drop-shadow(0 4px 6px rgba(251, 191, 36, 0.4));
-}
 
-.star-icon-3d path {
-  stroke: #D97706;
-  stroke-width: 0.5;
-  stroke-linejoin: round;
-}
 
 .score-display {
   margin-top: 0px;
@@ -262,13 +246,13 @@ const feedbackMessage = computed(() => {
 
 .score-number {
   color: #3EC53E;
-  font-size: 2rem;
+  font-size: 20px;
   font-weight: 900;
 }
 
 .score-message {
   color: #6B7280;
-  font-size: 0.95rem;
+  font-size: 16px;
   font-weight: 600;
   margin-top: 2px;
 }

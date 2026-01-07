@@ -15,6 +15,7 @@ import {
   ChartData
 } from 'chart.js';
 import annotationPlugin from 'chartjs-plugin-annotation';
+// Asegúrate de importar tus interfaces correctamente
 import type {HistoryModel, HistoryWeekModel} from "../models/HistoryWeekModel.ts";
 
 ChartJS.register(
@@ -29,16 +30,14 @@ ChartJS.register(
     annotationPlugin
 );
 
-
-
-
-
 const props = withDefaults(defineProps<{
-  data: HistoryModel;
+  // Nota: Asumo que HistoryModel es un array de HistoryWeekModel basado en tu uso anterior.
+  // Si HistoryModel es un objeto { data: [...] }, ajusta el acceso en el computed.
+  data: HistoryWeekModel[];
   title?: string;
-  divisions?: number; // Nueva prop para controlar "n" divisiones
+  divisions?: number;
 }>(), {
-  divisions: 5 // Valor por defecto si no se especifica
+  divisions: 5
 });
 
 const COLORS = {
@@ -52,9 +51,24 @@ const COLORS = {
 };
 
 const chartData = computed<ChartData<'line'>>(() => {
-  console.log("componente > " + JSON.stringify( props));
-  const history = props.data;
+  // 1. Obtenemos los datos crudos
+  const rawData = props.data || [];
 
+  // 2. Lógica para filtrar duplicados manteniendo el primero
+  const seenWeeks = new Set<number>();
+
+  const history = rawData.filter((item) => {
+    if (seenWeeks.has(item.semana)) {
+      // Si la semana ya está en el Set, devolvemos false para ignorar este registro
+      return false;
+    } else {
+      // Si es nueva, la agregamos al Set y devolvemos true para mantenerla
+      seenWeeks.add(item.semana);
+      return true;
+    }
+  });
+
+  // 3. Mapeamos usando la lista ya filtrada (history)
   const labels = history.map(item => item.semana.toString());
   const scoreData = history.map(item => item.calificacion);
   const goalData = history.map(item => item.meta);
@@ -158,11 +172,11 @@ const chartOptions = computed<ChartOptions<'line'>>(() => {
           tickLength: 0,
         },
         border: {
-          display: false, // Oculta la línea vertical del eje Y si quieres un look más limpio
+          display: false,
         },
         ticks: {
           color: COLORS.textGray,
-          count: props.divisions, // Fuerza "n" divisiones
+          count: props.divisions,
           callback: function(value) {
             return typeof value === 'number' ? value.toFixed(2) : value;
           }
@@ -215,9 +229,9 @@ const chartOptions = computed<ChartOptions<'line'>>(() => {
 }
 
 .chart-title {
-  margin: 0 0 1.5rem 0;
+  margin: 0 0 0.3rem 0;
   color: #374151;
-  font-size: 1.25rem;
+  font-size: 16px;
   font-weight: 700;
   text-align: left;
 }
@@ -232,7 +246,6 @@ const chartOptions = computed<ChartOptions<'line'>>(() => {
   justify-content: flex-start;
   gap: 20px;
   padding-left: 10px;
-  margin-top: 10px;
 }
 
 .legend-item {
@@ -249,16 +262,16 @@ const chartOptions = computed<ChartOptions<'line'>>(() => {
 }
 
 .legend-text {
-  font-size: 0.85rem;
+  font-size:12px;
   color: #6B7280;
   font-weight: 500;
 }
 
 .actual-dot {
-  background-color: #1A73E8;
+  background-color: #3D87E0;
 }
 
 .goal-dot {
-  background-color: #D93025;
+  background-color: #DA281C;
 }
 </style>

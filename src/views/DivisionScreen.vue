@@ -58,7 +58,9 @@ watch(
       <LoadingLottie/>
     </div>
 
-    <div v-else-if="!isLoading && scoreData" class="body-content">
+    <div v-else-if="!isLoading && scoreData" >
+
+      <div class="body-content">
 
       <TrimScoreCard
           :trim-score="scoreData.califTrimestre"
@@ -71,7 +73,10 @@ watch(
       <HistoryChart title="Tendencia" :data="historyList" />
 
       <RankingList title="Territorios" :week="week" :items="rankingList" />
+      </div>
+
       <Footer/>
+
     </div>
 
     <div v-else class="error-state">
@@ -81,10 +86,20 @@ watch(
   </div>
 </template>
 
-<style scoped>
-.body-content{
-  padding: 0;
 
+<style scoped>
+.body-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+  padding: 20px 10px;
+  box-sizing: border-box;
 }
 
+.body-content > * {
+  width: 100%;
+  max-width: 380px;
+}
 </style>
