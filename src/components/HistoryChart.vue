@@ -207,11 +207,11 @@ const chartOptions = computed<ChartOptions<'line'>>(() => {
 
 <style scoped>
 .history-chart-card {
-  background-color: #F6F7F9;
   border-radius: 24px;
   padding: 12px 0;
   margin-top: 12px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+  max-width: 420px;
 }
 
 .chart-title {

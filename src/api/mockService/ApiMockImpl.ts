@@ -2,7 +2,7 @@ import type {CommentsModel} from "../../models/CommentsModel.ts";
 import {fetchData} from "../ApiClient.ts";
 import type {RankingModel} from "../../models/RankingModel.ts";
 import type {HistoryModel} from "../../models/HistoryWeekModel.ts";
-import type {AtributoModel} from "../../models/AtributeItemModel.ts";
+import type {AtributeModel} from "../../models/AtributeItemModel.ts";
 import type {ScoreModel} from "../../models/ScoreModel.ts";
 
 
@@ -75,7 +75,7 @@ export const getHistory = async ( ceco:number): Promise<HistoryModel> => {
 
 }
 
-export const getAtributes = async (ceco:number, week:number, year:number) : Promise<AtributoModel> =>{
+export const getAtributes = async (ceco:number, week:number, year:number) : Promise<AtributeModel> =>{
     try{
         const endpoint: string =   '/v1/atributos';
         const params = {
@@ -83,7 +83,7 @@ export const getAtributes = async (ceco:number, week:number, year:number) : Prom
             semana:week,
             anio:year
         }
-        const apiResponse = await fetchData<AtributoModel>(endpoint,params);
+        const apiResponse = await fetchData<AtributeModel>(endpoint,params);
         if(apiResponse ){
             return apiResponse
         }else {

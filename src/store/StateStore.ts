@@ -20,7 +20,7 @@ export const useStateStore = defineStore('stateStore', {
         isLoading: false,
         level: 0,
         ceco: 0,
-        week: 48,
+        week: 50,
         screen: 'selector',
         history: []
     }),
@@ -43,6 +43,7 @@ export const useStateStore = defineStore('stateStore', {
         },
 
         setWeek(nuevaSemana: number) {
+            console.log(nuevaSemana);
             this.week = nuevaSemana;
         },
 

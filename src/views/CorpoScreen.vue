@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import TrimScoreCard from "../components/TrimScoreCard.vue";
 import WeekScoreBar from "../components/WeekScoreBar.vue";
 import RankingList from "../components/RankingList.vue";
@@ -20,52 +20,34 @@ const scoreData = ref<ScoreModel | null>(null);
 const historyList = ref<HistoryModel>();
 const rankingList = ref<RankingModel | null>(null);
 
+const loadData = async () => {
+  try {
+    store.setLoading(true);
 
+    const [scoreRes, historyRes, rankingRes] = await Promise.all([
+      getScore(0, week.value, 2025),
+      getHistory(0),
+      getRanking(0, week.value, 2025)
+    ]);
 
-const listData:RankingItemModel[] = [
-  {
-    "ranking": 1,
-    "ceco": 234848,
-    "nivel": 1,
-    "nombre": "DIVISION NORTE",
-    "calificacion": 4.71
-  },
-  {
-    "ranking": 2,
-    "ceco": 234874,
-    "nivel": 1,
-    "nombre": "DIVISION CENTRO",
-    "calificacion": 4.66
-  },
-  {
-    "ranking": 3,
-    "ceco": 235292,
-    "nivel": 1,
-    "nombre": "DIVISION SUR",
-    "calificacion": 4.65
+    scoreData.value = scoreRes;
+    historyList.value = historyRes;
+    rankingList.value = rankingRes;
+
+  } catch (error) {
+    console.error("Error cargando datos:", error);
+  } finally {
+    store.setLoading(false);
   }
-]
+};
 
-onMounted(async () => {
-
-try{
-  store.setLoading(true);
-  const response = await getScore(0, week.value, 2025);
-  const historyResponse = await getHistory(0);
-  const rankingResponse = await getRanking(0, week.value, 2025);
-  scoreData.value = response
-  historyList.value = historyResponse
-  rankingList.value = rankingResponse
-}catch(error){
-  console.log(error)
-}finally {
-  store.setLoading(false);
-}
-
-
-
-})
-
+watch(
+    [week, level, ceco],
+    () => {
+      loadData();
+    },
+    { immediate: true }
+);
 </script>
 
 <template>
@@ -86,7 +68,6 @@ try{
       <WeekScoreBar :score="scoreData.califSemana" />
 
       <HistoryChart title="Tendencia" :data="historyList" />
-      <CorpoSelector />
       <RankingList title="Divisiones" :week="week" :items="rankingList" />
       <Footer/>
     </div>

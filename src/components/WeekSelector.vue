@@ -40,11 +40,11 @@ const options = ref<WeekOption[]>([]);
 
 onMounted(() => {
   // const currentWeek = getCurrentWeekNumber();
-  const currentWeek = 48;
+  const currentWeek = 50;
   // const currentYear = new Date().getFullYear();
   const currentYear = 2025;
 
-  for (let i = 0; i <= 5; i++) {
+  for (let i = 0; i <= 2; i++) {
     const w = currentWeek - i;
 
     if (w > 0) {

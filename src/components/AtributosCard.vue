@@ -1,5 +1,7 @@
 <script setup lang="ts">
 
+import type {AtributeModel} from "../models/AtributeItemModel.ts";
+
 interface AttributeItem {
   id: number;
   nombre: string;
@@ -8,7 +10,7 @@ interface AttributeItem {
 
 // 2. Definición de Props
 const props = defineProps<{
-  atributos: AttributeItem[];
+  atributos: AtributeModel;
 }>();
 
 // 3. Función auxiliar para calcular el porcentaje de ancho
@@ -41,10 +43,10 @@ const getWidthPercentage = (score: number): string => {
     <div class="attributes-list">
       <div
           v-for="item in atributos"
-          :key="item.id"
+          :key="item.idAtributo"
           class="attribute-item"
       >
-        <div class="attr-name">{{ item.nombre }}</div>
+        <div class="attr-name">{{ item.nombreAtributo }}</div>
 
         <div class="progress-row">
           <span class="limit-label">0</span>
@@ -52,7 +54,7 @@ const getWidthPercentage = (score: number): string => {
           <div class="progress-track">
             <div
                 class="progress-fill"
-                :style="{ width: getWidthPercentage(item.score) }"
+                :style="{ width: getWidthPercentage(item.valorAtributo) }"
             ></div>
           </div>
 

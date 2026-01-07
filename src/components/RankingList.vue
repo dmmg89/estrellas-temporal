@@ -2,6 +2,8 @@
 import { computed, ref } from 'vue';
 import router, { ProfilePath } from "../router";
 import type {RankingItemModel, RankingModel} from "../models/RankingModel.ts";
+// 1. Importar el Store
+import { useStateStore } from "../store/StateStore.ts";
 
 interface Props {
   title: string;
@@ -10,6 +12,9 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+// 2. Instanciar el Store
+const store = useStateStore();
 
 type RankingItemNumeric = Omit<RankingItemModel, 'calificacion'> & { calificacion: number };
 
@@ -42,8 +47,16 @@ const toggleSort = () => {
 
 const isTopRank = (rankValue: number) => rankValue <= 3;
 
-const handleClick = (item: RankingItemNumeric) => {
-  console.log(item);
+// 3. Modificar el manejador de clic
+const handleClick = async (item: RankingItemNumeric) => {
+  console.log("Navegando a item:", item);
+
+  // A. Activar Loading para que la siguiente pantalla nazca cargando
+  store.setLoading(true);
+
+  // B. Actualizar el contexto en Pinia (Ceco y Nivel seleccionados)
+  store.setCeco(item.ceco);
+  store.setLevel(item.nivel);
 
   const routesMap: Record<number, string> = {
     1: ProfilePath.divisionScreen,
@@ -54,7 +67,14 @@ const handleClick = (item: RankingItemNumeric) => {
   const targetPath = routesMap[item.nivel];
 
   if (targetPath) {
-    router.push(targetPath);
+    // C. Navegar
+    await router.push(targetPath);
+    // Nota: No bajamos el loading aquí a false, porque la pantalla destino
+    // se encargará de eso cuando termine su petición API.
+  } else {
+    // Si no hay ruta, cancelamos el loading para no congelar la UI
+    console.warn("No hay ruta definida para el nivel:", item.nivel);
+    store.setLoading(false);
   }
 }
 </script>

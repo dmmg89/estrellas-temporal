@@ -4,6 +4,4 @@ export interface AtributeItemModel {
     valorAtributo:number;
 }
 
-export interface AtributoModel {
-    atributes:AtributeItemModel[];
-}
+export type AtributeModel = AtributeItemModel [];

@@ -149,6 +149,7 @@ const feedbackMessage = computed(() => {
   width: 380px;
   padding: 6px;
   border-radius: 16px;
+  margin-top: 120px;
 }
 
 .badge-quarter {

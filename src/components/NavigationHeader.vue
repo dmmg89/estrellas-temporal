@@ -38,10 +38,10 @@ const router: Router = useRouter();
 const headerTitle = Str.headerName
 
 const goBack = (): void => {
-    backInitNav();
+    // backInitNav();
 
 
-  // router.go(-1);
+  router.go(-1);
   // if (router.currentRoute.value.path === initialScreen) {
   //   backInitNav();
   // } else {
