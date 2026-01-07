@@ -61,13 +61,13 @@ body {
 }
 
 .main-image {
-  width: 200px; /* ajusta el tamaño de la imagen según necesites */
+  width: 200px;
   height: auto;
-  margin-bottom: 2em; /* Espacio entre la imagen y el texto */
+  margin-bottom: 1em;
 }
 
 p {
-  font-size: 1.1rem;
+  font-size: 0.8rem;
   color: #333;
   font-weight: bold;
 }

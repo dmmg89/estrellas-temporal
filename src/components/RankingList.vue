@@ -61,18 +61,15 @@ const handleClick = async (item: RankingItemNumeric) => {
   const routesMap: Record<number, string> = {
     1: ProfilePath.divisionScreen,
     2: ProfilePath.territorioScreen,
-    3: ProfilePath.regionScreen
+    // 3: ProfilePath.plazaScreen,
+    4: ProfilePath.regionScreen
   };
 
   const targetPath = routesMap[item.nivel];
 
   if (targetPath) {
-    // C. Navegar
     await router.push(targetPath);
-    // Nota: No bajamos el loading aquí a false, porque la pantalla destino
-    // se encargará de eso cuando termine su petición API.
   } else {
-    // Si no hay ruta, cancelamos el loading para no congelar la UI
     console.warn("No hay ruta definida para el nivel:", item.nivel);
     store.setLoading(false);
   }

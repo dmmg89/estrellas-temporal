@@ -2,20 +2,13 @@
 
 import type {AtributeModel} from "../models/AtributeItemModel.ts";
 
-interface AttributeItem {
-  id: number;
-  nombre: string;
-  score: number; // Se espera un valor entre 0.0 y 1.0 (ej. 0.94)
-}
 
-// 2. Definición de Props
+
 const props = defineProps<{
   atributos: AtributeModel;
 }>();
 
-// 3. Función auxiliar para calcular el porcentaje de ancho
 const getWidthPercentage = (score: number): string => {
-  // Aseguramos que esté entre 0 y 100%
   const percentage = Math.min(Math.max(score * 100, 0), 100);
   return `${percentage}%`;
 };
@@ -37,7 +30,7 @@ const getWidthPercentage = (score: number): string => {
         </div>
         <h2 class="main-title">Atributos</h2>
       </div>
-      <p class="subtitle">Clientes satisfechos con cada atributo</p>
+      <p class="subtitle">Así nos perciben nuestros clientes en cada aspecto del servicio</p>
     </div>
 
     <div class="attributes-list">
@@ -66,17 +59,14 @@ const getWidthPercentage = (score: number): string => {
 </template>
 
 <style scoped>
-/* Contenedor Principal */
 .atributos-card {
-  background-color: #F9FAFB; /* Fondo gris muy claro/blanco humo */
+  background-color: #F9FAFB;
   border-radius: 24px;
   padding: 1.5rem;
-  max-width: 400px; /* Ajustable según necesites */
-  font-family: system-ui, -apple-system, sans-serif;
+  max-width: 400px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
 }
 
-/* Header */
 .header {
   margin-bottom: 1.5rem;
 }
@@ -97,7 +87,7 @@ const getWidthPercentage = (score: number): string => {
 .gear-icon {
   width: 24px;
   height: 24px;
-  color: #818CF8; /* Color lila/azul suave del icono */
+  color: #818CF8;
 }
 
 .main-title {
@@ -112,13 +102,14 @@ const getWidthPercentage = (score: number): string => {
   font-size: 0.9rem;
   color: #9CA3AF;
   font-weight: 500;
+
 }
 
 /* Lista */
 .attributes-list {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem; /* Espacio vertical entre items */
+  gap: 1.2rem;
 }
 
 .attribute-item {
@@ -129,7 +120,7 @@ const getWidthPercentage = (score: number): string => {
 
 .attr-name {
   font-weight: 700;
-  color: #4B5563; /* Gris oscuro */
+  color: #4B5563;
   font-size: 0.95rem;
 }
 
@@ -142,25 +133,24 @@ const getWidthPercentage = (score: number): string => {
 
 .limit-label {
   font-size: 0.85rem;
-  color: #D1D5DB; /* Gris muy claro para 0 y 100% */
+  color: #D1D5DB;
   font-weight: 600;
   min-width: 10px;
 }
 
 .progress-track {
-  flex-grow: 1; /* Ocupa todo el espacio disponible */
+  flex-grow: 1;
   height: 12px;
-  background-color: #FFFFFF; /* Track blanco */
-  border-radius: 999px; /* Forma de píldora completa */
+  background-color: #FFFFFF;
+  border-radius: 999px;
   overflow: hidden;
-  /* Opcional: borde sutil si el fondo es muy blanco */
-  /* border: 1px solid #F3F4F6; */
+
 }
 
 .progress-fill {
   height: 100%;
-  background-color: #3B82F6; /* Azul brillante similar a la imagen */
+  background-color: #6BC63B;
   border-radius: 999px;
-  transition: width 0.5s ease-out; /* Animación suave al cargar */
+  transition: width 0.5s ease-out;
 }
 </style>
