@@ -29,13 +29,14 @@ export const getComments = async (ceco:number, level:number, week:number, year:n
     }
 }
 
-export const getRanking = async (level:number, week: number, year:number) : Promise<RankingModel> =>{
+export const getRanking = async (level:number, week: number, year:number, type:number = 1) : Promise<RankingModel> =>{
     try{
         const endpoint: string =   '/v1/ranking';
         const params = {
             nivel : level,
             semana:week,
             anio:year,
+            tipo:type
         }
         const apiResponse = await fetchData<RankingModel>(endpoint,params);
         if(apiResponse ){
@@ -96,6 +97,29 @@ export const getAtributes = async (ceco:number, week:number, year:number) : Prom
         return null;
     }
 }
+
+export const getTermometer = async (ceco:number, week:number, year:number) : Promise<AtributeModel> =>{
+    try{
+        const endpoint: string =   '/v1/termometro';
+        const params = {
+            ceco:ceco,
+            semana:week,
+            anio:year
+        }
+        const apiResponse = await fetchData<AtributeModel>(endpoint,params);
+        if(apiResponse ){
+            return apiResponse
+        }else {
+            console.log("Mock -> termometro ", JSON.stringify(apiResponse));
+            return null;
+        }
+
+    }catch (error:any) {
+        console.log("Mock -> termometro ", error);
+        return null;
+    }
+}
+
 
 export const getScore = async (ceco:number, week:number, year:number) : Promise<ScoreModel> =>{
     try{

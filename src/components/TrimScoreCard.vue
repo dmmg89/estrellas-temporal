@@ -2,28 +2,41 @@
 import { computed } from 'vue';
 
 const props = defineProps<{
-  trimScore: number;
+  trimScore: number | string | null | undefined;
   zone: string;
   currentWeek: number;
 }>();
 
 const MIN_VALUE = 0;
 const MAX_VALUE = 5;
-const RADIUS = 90;
-const ARC_LENGTH = Math.PI * RADIUS;
+
+// --- CORRECCIÓN AQUÍ ---
+// El radio debe ser 80 para coincidir con el path del SVG (A 80 80)
+const RADIUS = 80;
+const ARC_LENGTH = Math.PI * RADIUS; // Ahora dará aprox 251.32, coincidiendo con el dasharray
 
 const DIVISIONS = 4;
 const OUTER_RADIUS = 92;
 
+// ... (El resto de la lógica de safeScore se mantiene igual) ...
+const safeScore = computed(() => {
+  const val = props.trimScore;
+  if (val === null || val === undefined || val === '') return 0;
+  let numericVal: number;
+  if (typeof val === 'string') {
+    numericVal = parseFloat(val.replace(/,/g, ''));
+  } else {
+    numericVal = val;
+  }
+  if (isNaN(numericVal) || numericVal === 0) return 0;
+  return numericVal;
+});
+
 const divisionLines = computed(() => {
   const lines = [];
-
   const step = Math.PI / (DIVISIONS + 1);
-
   for (let i = 1; i <= DIVISIONS; i++) {
     const angle = Math.PI - (step * i);
-    // Convertir Polar a Cartesiano
-    // Centro es 100, 100
     const x2 = 100 + OUTER_RADIUS * Math.cos(angle);
     const y2 = 100 - OUTER_RADIUS * Math.sin(angle);
     lines.push({ x2, y2 });
@@ -32,11 +45,11 @@ const divisionLines = computed(() => {
 });
 
 const clampedScore = computed(() => {
-  return Math.min(Math.max(props.trimScore, MIN_VALUE), MAX_VALUE);
+  return Math.min(Math.max(safeScore.value, MIN_VALUE), MAX_VALUE);
 });
 
 const formattedScore = computed(() => {
-  return props.trimScore.toFixed(2);
+  return safeScore.value.toFixed(2);
 });
 
 const strokeDashoffset = computed(() => {
@@ -50,14 +63,15 @@ const arrowRotation = computed(() => {
   return `rotate(${degrees}deg)`;
 });
 
+// ... (Resto de computed properties: weekRangeText, feedbackMessage) ...
 const weekRangeText = computed(() => {
   const startWeek = props.currentWeek - 5;
   return `S${startWeek} a S${props.currentWeek}`;
 });
 
 const feedbackMessage = computed(() => {
-  if (props.trimScore >= 4.5) return '¡Van por excelente camino!';
-  if (props.trimScore >= 3.5) return '¡Sigue trabajando en ello!';
+  if (safeScore.value >= 4.5) return '¡Van por excelente camino!';
+  if (safeScore.value >= 3.5) return '¡Sigue trabajando en ello!';
   return 'Podemos mejorar';
 });
 </script>
@@ -100,24 +114,25 @@ const feedbackMessage = computed(() => {
             stroke="#32c759"
             stroke-width="10"
             stroke-linecap="round"
-            stroke-dasharray="251.32"
+            stroke-dasharray="251.33"
             :stroke-dashoffset="strokeDashoffset"
             class="progress-bar"
         />
 
-        <g stroke="white" stroke-width="2"> <line
-            v-for="(line, index) in divisionLines"
-            :key="index"
-            x1="100"
-            y1="100"
-            :x2="line.x2"
-            :y2="line.y2"
-        />
+        <g stroke="white" stroke-width="2">
+          <line
+              v-for="(line, index) in divisionLines"
+              :key="index"
+              x1="100"
+              y1="100"
+              :x2="line.x2"
+              :y2="line.y2"
+          />
         </g>
 
         <g class="arrow-group" :style="{ transformOrigin: '100px 100px', transform: arrowRotation }">
           <path
-              d="M 92 12 L 100 0 L 108 12 L 100 24 Z"
+              d="M 91 0 L 109 0 L 109 12 L 100 22 L 91 12 Z"
               fill="#32c759"
               stroke="white"
               stroke-width="2"

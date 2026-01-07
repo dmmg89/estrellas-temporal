@@ -14,6 +14,7 @@ import type {HistoryModel, HistoryWeekModel} from "../models/HistoryWeekModel.ts
 import HistoryChart from "../components/HistoryChart.vue";
 import type {AtributeModel} from "../models/AtributeItemModel.ts";
 import AtributosCard from "../components/AtributosCard.vue";
+import LoadingLottie from "../components/LoadingLottie.vue";
 
 const store = useStateStore();
 const { isLoading, week, level, ceco } = storeToRefs(store);
@@ -59,7 +60,7 @@ watch(
   <div class="page-container">
 
     <div v-if="isLoading" class="loading-state">
-      Cargando...
+      <LoadingLottie/>
     </div>
 
     <div v-else-if="!isLoading && scoreData" class="body-content">

@@ -12,6 +12,7 @@ import {storeToRefs} from "pinia";
 import {getHistory, getRanking, getScore} from "../api/mockService/ApiMockImpl.ts";
 import type {HistoryModel, HistoryWeekModel} from "../models/HistoryWeekModel.ts";
 import HistoryChart from "../components/HistoryChart.vue";
+import LoadingLottie from "../components/LoadingLottie.vue";
 
 const store = useStateStore();
 const { isLoading, week, level, ceco } = storeToRefs(store);
@@ -54,7 +55,7 @@ watch(
   <div class="page-container">
 
     <div v-if="isLoading" class="loading-state">
-      Cargando...
+      <LoadingLottie/>
     </div>
 
     <div v-else-if="!isLoading && scoreData" class="body-content">

@@ -5,6 +5,7 @@ import CircularIconButton from "./items/CircularIconButton.vue";
 
 import { useRouter, type Router } from 'vue-router';
 import {Str} from "../utils/AppConstants.ts";
+import {ProfilePath} from "../router";
 
 
 interface WebkitMessageHandler {
@@ -41,12 +42,11 @@ const goBack = (): void => {
     // backInitNav();
 
 
-  router.go(-1);
-  // if (router.currentRoute.value.path === initialScreen) {
-  //   backInitNav();
-  // } else {
-  //   router.go(-1); // Navega una página atrás en el historial del navegador
-  // }
+  if (router.currentRoute.value.path === ProfilePath.corpoScreen) {
+    backInitNav();
+  } else {
+    router.go(-1);
+  }
 };
 
 

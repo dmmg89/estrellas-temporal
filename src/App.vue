@@ -3,6 +3,7 @@ import NavigationHeader from "./components/NavigationHeader.vue";
 import ErrorLottie from "./components/ErrorLottie.vue";
 import { RouterLink, RouterView } from 'vue-router'
 import WeekSelector from "./components/WeekSelector.vue";
+import LoadingLottie from "./components/LoadingLottie.vue";
 
 
 
@@ -12,7 +13,9 @@ import WeekSelector from "./components/WeekSelector.vue";
 </script>
 
 <template>
+<!--  <LoadingLottie />-->
   <NavigationHeader />
+
 
   <div class="sub-header-wrapper">
     <WeekSelector />

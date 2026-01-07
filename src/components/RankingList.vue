@@ -13,7 +13,6 @@ interface Props {
 
 const props = defineProps<Props>();
 
-// 2. Instanciar el Store
 const store = useStateStore();
 
 type RankingItemNumeric = Omit<RankingItemModel, 'calificacion'> & { calificacion: number };
@@ -32,13 +31,25 @@ const sortedItems = computed<RankingItemNumeric[]>(() => {
     calificacion: parseScore(item.calificacion)
   }));
 
-  return mappedList.sort((a, b) => {
+  const sorted = mappedList.sort((a, b) => {
+    let comparison = 0;
     if (isDescending.value) {
-      return b.calificacion - a.calificacion;
+      comparison = b.calificacion - a.calificacion;
     } else {
-      return a.calificacion - b.calificacion;
+      comparison = a.calificacion - b.calificacion;
     }
+
+    if (comparison === 0) {
+      return a.ranking - b.ranking;
+    }
+
+    return comparison;
   });
+
+  return sorted.map((item, index) => ({
+    ...item,
+    ranking: index + 1
+  }));
 });
 
 const toggleSort = () => {
@@ -47,14 +58,11 @@ const toggleSort = () => {
 
 const isTopRank = (rankValue: number) => rankValue <= 3;
 
-// 3. Modificar el manejador de clic
 const handleClick = async (item: RankingItemNumeric) => {
   console.log("Navegando a item:", item);
 
-  // A. Activar Loading para que la siguiente pantalla nazca cargando
   store.setLoading(true);
 
-  // B. Actualizar el contexto en Pinia (Ceco y Nivel seleccionados)
   store.setCeco(item.ceco);
   store.setLevel(item.nivel);
 
@@ -62,7 +70,8 @@ const handleClick = async (item: RankingItemNumeric) => {
     1: ProfilePath.divisionScreen,
     2: ProfilePath.territorioScreen,
     // 3: ProfilePath.plazaScreen,
-    4: ProfilePath.regionScreen
+    4: ProfilePath.regionScreen,
+    5: ProfilePath.pdv
   };
 
   const targetPath = routesMap[item.nivel];
@@ -268,9 +277,6 @@ const handleClick = async (item: RankingItemNumeric) => {
   font-size: 0.9rem;
   font-weight: 600;
   color: #4B5563;
-  text-decoration: underline;
-  text-decoration-color: #D1D5DB;
-  text-underline-offset: 4px;
   margin-left: 40px;
   margin-top: 12px;
   white-space: nowrap;

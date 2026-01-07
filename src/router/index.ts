@@ -5,11 +5,13 @@ import TerritorioScreen from "../views/TerritoryScreen.vue";
 import DivisionScreen from "../views/DivisionScreen.vue";
 import CorpoScreen from "../views/CorpoScreen.vue";
 import ErrorScreen from "../views/ErrorScreen.vue";
+import RegionScreen from "../views/RegionScreen.vue";
+import PdvScreen from "../views/PdvScreen.vue";
 
 
 export enum ProfilePath{
     selectorPath = '/',
-    leaderScreen = '/lider',
+    pdv = '/pdv',
     regionScreen = '/region',
     territorioScreen = '/territorio',
     divisionScreen = '/division',
@@ -21,7 +23,7 @@ export enum ProfilePath{
 export enum ScreenName{
     error = 'error',
     selector = 'selector',
-    leader = 'lider',
+    pdv = 'pdv',
     region='regional',
     territory='territorio',
     division = 'division',
@@ -49,6 +51,16 @@ const routes:Array<RouteRecordRaw> =
             path: ProfilePath.territorioScreen,
             name: ScreenName.territory,
             component: TerritorioScreen
+        },
+        {
+            path: ProfilePath.regionScreen,
+            name: ScreenName.region,
+            component: RegionScreen
+        },
+        {
+            path: ProfilePath.pdv,
+            name: ScreenName.pdv,
+            component: PdvScreen
         },
         {
             path: ProfilePath.errorScreen,
