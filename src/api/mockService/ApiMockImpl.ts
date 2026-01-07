@@ -61,6 +61,7 @@ export const getHistory = async ( ceco:number): Promise<HistoryModel> => {
         }
         const apiResponse = await fetchData<HistoryModel>(endpoint,params);
         if(apiResponse ){
+            console.log(apiResponse);
             return apiResponse
         }else {
             console.log("Mock -> historico ", JSON.stringify(apiResponse));
@@ -106,6 +107,7 @@ export const getScore = async (ceco:number, week:number, year:number) : Promise<
         }
         const apiResponse = await fetchData<ScoreModel>(endpoint,params);
         if(apiResponse ){
+            console.log(JSON.stringify(apiResponse));
             return apiResponse
         }else {
             console.log("Mock -> calificacion ", JSON.stringify(apiResponse));

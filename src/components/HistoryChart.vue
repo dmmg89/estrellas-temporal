@@ -15,6 +15,7 @@ import {
   ChartData
 } from 'chart.js';
 import annotationPlugin from 'chartjs-plugin-annotation';
+import type {HistoryModel, HistoryWeekModel} from "../models/HistoryWeekModel.ts";
 
 ChartJS.register(
     CategoryScale,
@@ -28,18 +29,12 @@ ChartJS.register(
     annotationPlugin
 );
 
-export interface HistoryItem {
-  week: number;
-  score: number;
-  goal: number;
-}
 
-export interface PropsData {
-  history: HistoryItem[];
-}
+
+
 
 const props = withDefaults(defineProps<{
-  data: PropsData;
+  data: HistoryModel;
   title?: string;
   divisions?: number; // Nueva prop para controlar "n" divisiones
 }>(), {
@@ -57,10 +52,12 @@ const COLORS = {
 };
 
 const chartData = computed<ChartData<'line'>>(() => {
-  const history = props.data.history;
-  const labels = history.map(item => item.week.toString());
-  const scoreData = history.map(item => item.score);
-  const goalData = history.map(item => item.goal);
+  console.log("componente > " + JSON.stringify( props));
+  const history = props.data;
+
+  const labels = history.map(item => item.semana.toString());
+  const scoreData = history.map(item => item.calificacion);
+  const goalData = history.map(item => item.meta);
 
   return {
     labels: labels,

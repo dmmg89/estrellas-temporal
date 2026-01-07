@@ -7,6 +7,7 @@ interface NavigationHistory {
 }
 
 interface StateStoreState {
+    isLoading: boolean;
     level: number;
     ceco: number;
     week:number;
@@ -16,6 +17,7 @@ interface StateStoreState {
 
 export const useStateStore = defineStore('stateStore', {
     state: (): StateStoreState => ({
+        isLoading: false,
         level: 0,
         ceco: 0,
         week: 48,
@@ -29,6 +31,9 @@ export const useStateStore = defineStore('stateStore', {
     },
 
     actions: {
+        setLoading(valor: boolean) {
+            this.isLoading = valor;
+        },
         setLevel(nuevoNivel: number) {
             this.level = nuevoNivel;
         },
@@ -77,6 +82,7 @@ export const useStateStore = defineStore('stateStore', {
         },
 
         resetState() {
+            this.isLoading = false;
             this.level = 0;
             this.ceco = 0;
             this.week = 48;

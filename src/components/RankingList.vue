@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import router, { ProfilePath } from "../router";
-import type { RankingItemModel } from "../models/RankingModel.ts";
+import type {RankingItemModel, RankingModel} from "../models/RankingModel.ts";
 
 interface Props {
   title: string;
   week: number;
-  items: RankingItemModel[];
+  items: RankingModel;
 }
 
 const props = defineProps<Props>();

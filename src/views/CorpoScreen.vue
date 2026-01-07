@@ -1,22 +1,26 @@
 <script setup lang="ts">
-import {onMounted} from "vue";
-import {getComments} from "../api/mockService/ApiMockImpl.ts";
+import {onMounted, ref} from "vue";
 import TrimScoreCard from "../components/TrimScoreCard.vue";
 import WeekScoreBar from "../components/WeekScoreBar.vue";
-import HistoryChart from "../components/HistoryChart.vue";
 import RankingList from "../components/RankingList.vue";
 import CorpoSelector from "../components/CorpoSelector.vue";
 import Footer from "../components/Footer.vue";
-import type {RankingItemModel} from "../models/RankingModel.ts";
+import type {RankingItemModel, RankingModel} from "../models/RankingModel.ts";
+import type {ScoreModel} from "../models/ScoreModel.ts";
+import {useStateStore} from "../store/StateStore.ts";
+import {storeToRefs} from "pinia";
+import {getHistory, getRanking, getScore} from "../api/mockService/ApiMockImpl.ts";
+import type {HistoryModel, HistoryWeekModel} from "../models/HistoryWeekModel.ts";
+import HistoryChart from "../components/HistoryChart.vue";
 
-const reportData = {
-  history: [
-    { week: 45, score: 3.9, goal: 4.0 },
-    { week: 46, score: 4.2, goal: 4.2 },
-    { week: 47, score: 4.5, goal: 4.5 },
-    { week: 48, score: 4.3, goal: 4.5 }
-  ]
-};
+const store = useStateStore();
+const { isLoading, week, level, ceco } = storeToRefs(store);
+
+const scoreData = ref<ScoreModel | null>(null);
+const historyList = ref<HistoryModel>();
+const rankingList = ref<RankingModel | null>(null);
+
+
 
 const listData:RankingItemModel[] = [
   {
@@ -44,6 +48,20 @@ const listData:RankingItemModel[] = [
 
 onMounted(async () => {
 
+try{
+  store.setLoading(true);
+  const response = await getScore(0, week.value, 2025);
+  const historyResponse = await getHistory(0);
+  const rankingResponse = await getRanking(0, week.value, 2025);
+  scoreData.value = response
+  historyList.value = historyResponse
+  rankingList.value = rankingResponse
+}catch(error){
+  console.log(error)
+}finally {
+  store.setLoading(false);
+}
+
 
 
 })
@@ -51,20 +69,33 @@ onMounted(async () => {
 </script>
 
 <template>
+  <div class="page-container">
 
-  <div class="body-content">
+    <div v-if="isLoading" class="loading-state">
+      Cargando...
+    </div>
+
+    <div v-else-if="!isLoading && scoreData" class="body-content">
+
+      <TrimScoreCard
+          :trim-score="scoreData.califTrimestre"
+          zone="Corporativo"
+          :current-week="week"
+      />
+
+      <WeekScoreBar :score="scoreData.califSemana" />
+
+      <HistoryChart title="Tendencia" :data="historyList" />
+      <CorpoSelector />
+      <RankingList title="Divisiones" :week="week" :items="rankingList" />
+      <Footer/>
+    </div>
+
+    <div v-else class="error-state">
+      <p>No se pudo cargar la información.</p>
+    </div>
 
   </div>
-
-  <TrimScoreCard :trim-score="4.3" zone="Corporativo"  :current-week="48"/>
-  <WeekScoreBar :score="4.1" />
-
-  <HistoryChart title="Tendencia" :data="reportData" />
-  <CorpoSelector />
-  <RankingList title="Divisiones" :week="48" :items="listData" />
-  <Footer/>
-
-
 </template>
 
 <style scoped>

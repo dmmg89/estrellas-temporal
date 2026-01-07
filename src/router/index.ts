@@ -1,8 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import type { RouteRecordRaw } from 'vue-router';
+import type {RouteRecordRaw} from 'vue-router';
+import {createRouter, createWebHistory} from 'vue-router';
 import ProfileSelector from "../ProfileSelector.vue"
-import LeaderScreen from "../views/LeaderScreen.vue";
-import RegionScreen from "../views/RegionScreen.vue";
 import TerritorioScreen from "../views/TerritoryScreen.vue";
 import DivisionScreen from "../views/DivisionScreen.vue";
 import CorpoScreen from "../views/CorpoScreen.vue";

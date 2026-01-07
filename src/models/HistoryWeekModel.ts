@@ -4,6 +4,4 @@ export interface HistoryWeekModel {
     meta: number;
 }
 
-export interface HistoryModel {
-    data: HistoryWeekModel[];
-}
+export type HistoryModel = HistoryWeekModel[];

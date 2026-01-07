@@ -1,3 +1,5 @@
+import type {HistoryWeekModel} from "./HistoryWeekModel.ts";
+
 export interface RankingItemModel {
     ranking: number;
     nivel: number;
@@ -6,6 +8,4 @@ export interface RankingItemModel {
     calificacion: number|string;
 }
 
-export interface RankingModel {
-    data: RankingItemModel[];
-}
+export type RankingModel = RankingItemModel[];
