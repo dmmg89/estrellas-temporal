@@ -1,3 +1,55 @@
+<script setup lang="ts">
+import { computed } from 'vue'
+import type { AtributeModel } from '../models/AtributeItemModel'
+
+
+const props = defineProps<{
+  items: AtributeModel
+}>()
+
+
+const ATTRIBUTE_CONFIG: Record<number, { label: string }> = {
+  1: { label: 'Actitud de Servicio' },
+  2: { label: 'Tiempo de información' },
+  3: { label: 'Calidad de la información' },
+  4: { label: 'Conocimiento del asesor' },
+  5: { label: 'Imagen del asesor' }
+}
+
+
+const normalizePercentage = (value: number): number => {
+  if (value > 1) {
+    return Math.min(Math.round(value), 100)
+  }
+  return Math.min(Math.round(value * 100), 100)
+}
+
+interface AttributeData {
+  label: string
+  positive: number
+  opportunity: number
+}
+
+
+const data = computed<AttributeData[]>(() => {
+  if (!props.items || props.items.length === 0) return []
+
+  return (
+    props.items
+      .filter(item => ATTRIBUTE_CONFIG[item.idAtributo])
+      .sort((a, b) => a.idAtributo - b.idAtributo)
+      .map(item => {
+        const value = normalizePercentage(item.valorAtributo)
+        return {
+          label: ATTRIBUTE_CONFIG[item.idAtributo].label,
+          positive: value,
+          opportunity: 100 - value
+        }
+      })
+  )
+})
+</script>
+
 <template>
   <div class="attribute-container">
     <header class="header">
@@ -19,13 +71,15 @@
         <div class="progress-container">
           <div 
             class="bar green" 
-            :style="{ width: `${attr.positive}%` }"
+            :style="{ width: `calc(${normalizePercentage(attr.positive)}% + 15px)` }"
           >
             {{ attr.positive }}%
           </div>
           <div 
               class="bar red" 
+              v-show ="attr.opportunity  != 0" 
               :style="{ width: `${attr.opportunity}%` }"
+             
             >
             {{ attr.opportunity }}%
           </div>
@@ -45,70 +99,6 @@
     </footer>
   </div>
 </template>
-
-<script setup lang="ts">
-import { computed } from 'vue'
-import type { AtributeModel } from '../models/AtributeItemModel'
-
-// =====================
-// PROPS
-// =====================
-const props = defineProps<{
-  items: AtributeModel
-}>()
-
-// =====================
-// CONFIGURACIÓN DE ATRIBUTOS
-// =====================
-const ATTRIBUTE_CONFIG: Record<number, { label: string }> = {
-  1: { label: 'Actitud de Servicio' },
-  2: { label: 'Tiempo de información' },
-  3: { label: 'Calidad de la información' },
-  4: { label: 'Conocimiento del asesor' },
-  5: { label: 'Imagen del asesor' }
-}
-
-// =====================
-// NORMALIZADOR (reutilizado)
-// =====================
-const normalizePercentage = (value: number): number => {
-  if (value > 1) {
-    return Math.min(Math.round(value), 100)
-  }
-  return Math.min(Math.round(value * 100), 100)
-}
-
-// =====================
-// MODELO INTERNO DEL COMPONENTE
-// =====================
-interface AttributeData {
-  label: string
-  positive: number
-  opportunity: number
-}
-
-// =====================
-// DATA FINAL PARA EL TEMPLATE
-// =====================
-const data = computed<AttributeData[]>(() => {
-  if (!props.items || props.items.length === 0) return []
-
-  return (
-    props.items
-      .filter(item => ATTRIBUTE_CONFIG[item.idAtributo])
-      .sort((a, b) => a.idAtributo - b.idAtributo)
-      .map(item => {
-        const value = normalizePercentage(item.valorAtributo)
-        return {
-          label: ATTRIBUTE_CONFIG[item.idAtributo].label,
-          positive: value,
-          opportunity: 100 - value
-        }
-      })
-  )
-})
-</script>
-
 
 <style scoped>
 .attribute-container {
@@ -149,6 +139,7 @@ const data = computed<AttributeData[]>(() => {
   color:  #666;
   margin-bottom: 25px;
   line-height: 1.2;
+  text-align: left;
 }
 
 .attributes-list {
@@ -174,7 +165,7 @@ const data = computed<AttributeData[]>(() => {
   display: flex;
   height: 28px;
   width: 100%;
-  gap: 0; 
+  position: relative; /* Base para el posicionamiento absoluto */
   align-items: center;
   /* Eliminamos overflow: hidden para que la curva de la roja se vea bien */
 }
@@ -185,23 +176,31 @@ const data = computed<AttributeData[]>(() => {
   justify-content: center;
   color: white;
   font-weight: bold;
-  font-size: 10px;
+  font-size: 11px;
   height: 100%;
-  position: relative; /* Necesario para que z-index funcione */
-  min-width: ; /* Permite que las barras se reduzcan */
-  flex-shrink: 0; /* Evita que se compriman */
+  border-radius: 20px; /* Forma de píldora para ambas */
+  transition: width 0.3s ease;
 }
 
 .green {
-  background-color:rgba(117, 203, 67, 0.99);
-  border-radius: 20px 20px 20px 20px ;
-  z-index: 1; /* Queda atrás */
+  background-color: #75cb43;
+  width: 100% !important; /* La verde actúa como base total */
+  justify-content: center; 
+  z-index: 1;
+}
+.value-text {
+  flex: 1;
+  text-align: center;
+  padding-right: 20px; /* Evita que el número choque con la roja */
 }
 
 .red {
   background-color: #e33127;
-  border-radius: 20px 20px 20px 20px ; /* Forma de píldora completa */
-  z-index: 2; /* Queda adelante */
+  position: absolute; /* Se sale del flujo normal */
+  right: 0;           /* Se pega a la derecha */
+  z-index: 2;        /* Se dibuja encima de la verde */
+  min-width: 35px;    /* Asegura que el número siempre sea legible */
+  border: 2px solid white; /* Opcional: añade un borde para separar visualmente */
   
   /* --- ESTO MUEVE LA BARRA HACIA LA IZQUIERDA --- */
   margin-left: -px; 
