@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed } from "vue";
 
 const props = defineProps<{
   trimScore: number | string | null | undefined;
@@ -17,10 +17,10 @@ const OUTER_RADIUS = 92;
 
 const safeScore = computed(() => {
   const val = props.trimScore;
-  if (val === null || val === undefined || val === '') return 0;
+  if (val === null || val === undefined || val === "") return 0;
   let numericVal: number;
-  if (typeof val === 'string') {
-    numericVal = parseFloat(val.replace(/,/g, ''));
+  if (typeof val === "string") {
+    numericVal = parseFloat(val.replace(/,/g, ""));
   } else {
     numericVal = val;
   }
@@ -32,7 +32,7 @@ const divisionLines = computed(() => {
   const lines = [];
   const step = Math.PI / (DIVISIONS + 1);
   for (let i = 1; i <= DIVISIONS; i++) {
-    const angle = Math.PI - (step * i);
+    const angle = Math.PI - step * i;
     const x2 = 100 + OUTER_RADIUS * Math.cos(angle);
     const y2 = 100 - OUTER_RADIUS * Math.sin(angle);
     lines.push({ x2, y2 });
@@ -65,17 +65,15 @@ const weekRangeText = computed(() => {
 });
 
 const feedbackMessage = computed(() => {
-  if (safeScore.value >= 4.5) return '¡Van por excelente camino!';
-  if (safeScore.value >= 3.5) return '¡Sigue trabajando en ello!';
-  return 'Podemos mejorar';
+  if (safeScore.value >= 4.5) return "¡Van por excelente camino!";
+  if (safeScore.value >= 3.5) return "¡Sigue trabajando en ello!";
+  return "Podemos mejorar";
 });
 </script>
 
 <template>
   <div class="trim-score-card">
-    <div class="badge-quarter">
-      Calificación 4Q
-    </div>
+    <div class="badge-quarter">Calificación 4Q</div>
 
     <div class="header">
       <h2 class="zone-title">{{ zone }}</h2>
@@ -87,8 +85,8 @@ const feedbackMessage = computed(() => {
       <svg class="gauge-svg" viewBox="0 -10 200 130">
         <defs>
           <linearGradient id="starGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#FBBF24;stop-opacity:1" />
+            <stop offset="0%" style="stop-color: #ffd700; stop-opacity: 1" />
+            <stop offset="100%" style="stop-color: #fbbf24; stop-opacity: 1" />
           </linearGradient>
           <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
             <feDropShadow
@@ -149,11 +147,7 @@ const feedbackMessage = computed(() => {
       </svg>
 
       <div class="star-container">
-        <img
-          class="estrella"
-          src="../assets/icons/ic_big_star.svg"
-          alt=""
-        />
+        <img class="estrella" src="../assets/icons/ic_big_star.svg" alt="" />
       </div>
     </div>
 
@@ -169,7 +163,7 @@ const feedbackMessage = computed(() => {
   position: relative;
   width: calc(100vw - 62px);
   padding: 6px;
-  margin-top: 150px;
+  margin-top: 180px;
   padding: 0 30px;
 }
 
@@ -237,7 +231,7 @@ const feedbackMessage = computed(() => {
 }
 
 .limit-text {
-  fill: #9CA3AF;
+  fill: #9ca3af;
   font-weight: 600;
   font-size: 9px;
   border: 1px solid #333;

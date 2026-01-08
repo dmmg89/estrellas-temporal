@@ -41,13 +41,13 @@ const loadData = async () => {
     store.setLoading(true);
 
     const [scoreRes, historyRes, rankingRes, atributeRes, termometerRes] =
-      await Promise.all([
-        getScore(ceco.value, week.value, 2025),
-        getHistory(ceco.value),
-        getRanking(ceco.value),
-        getAtributes(ceco.value, week.value, 2025),
-        getTermometer(ceco.value, week.value, 2025),
-      ]);
+        await Promise.all([
+          getScore(ceco.value, week.value, 2025),
+          getHistory(ceco.value),
+          getRanking(ceco.value),
+          getAtributes(ceco.value, week.value, 2025),
+          getTermometer(ceco.value, week.value, 2025),
+        ]);
 
     scoreData.value = scoreRes;
     historyList.value = historyRes;
@@ -62,11 +62,11 @@ const loadData = async () => {
 };
 
 watch(
-  [week, level, ceco],
-  () => {
-    loadData();
-  },
-  { immediate: true }
+    [week, level, ceco],
+    () => {
+      loadData();
+    },
+    { immediate: true }
 );
 </script>
 
@@ -79,9 +79,9 @@ watch(
     <div v-else-if="!isLoading && scoreData">
       <div class="body-content">
         <TrimScoreCard
-          :trim-score="scoreData.califTrimestre"
-          zone="PDV"
-          :current-week="week"
+            :trim-score="scoreData.califTrimestre"
+            zone="PDV"
+            :current-week="week"
         />
 
         <WeekScoreBar :score="scoreData.califSemana" />
@@ -91,8 +91,8 @@ watch(
         <AtributosCard :atributos="atributesList" />
 
         <TermometerCard
-          v-if="termometerList.length > 0"
-          :items="termometerList"
+            v-if="termometerList.length > 0"
+            :items="termometerList"
         />
 
         <AsesoresCard />

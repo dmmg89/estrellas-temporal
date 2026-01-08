@@ -3,21 +3,28 @@
     <label class="selector-label">Semana</label>
 
     <div class="select-wrapper">
-      <select
-          :value="store.week"
-          @change="handleChange"
-          class="custom-select"
-      >
+      <select :value="store.week" @change="handleChange" class="custom-select">
         <option
-            v-for="option in options"
-            :key="option.value"
-            :value="option.value"
+          v-for="option in options"
+          :key="option.value"
+          :value="option.value"
         >
           {{ option.label }}
         </option>
       </select>
 
-      <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg
+        class="chevron-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
         <polyline points="6 9 12 15 18 9"></polyline>
       </svg>
     </div>
@@ -25,9 +32,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import {useStateStore} from "../store/StateStore.ts";
-import {generateLabelFromWeek, getCurrentWeekNumber} from "../utils/DateUtils.ts";
+import { ref, onMounted } from "vue";
+import { useStateStore } from "../store/StateStore.ts";
+import {
+  generateLabelFromWeek,
+  getCurrentWeekNumber,
+} from "../utils/DateUtils.ts";
+import Buscador from "./Buscador.vue";
 
 const store = useStateStore();
 
@@ -44,13 +55,13 @@ onMounted(() => {
   // const currentYear = new Date().getFullYear();
   const currentYear = 2025;
 
-  for (let i = 0; i <= 2; i++) {
+  for (let i = 0; i <= 5; i++) {
     const w = currentWeek - i;
 
     if (w > 0) {
       options.value.push({
         value: w,
-        label: generateLabelFromWeek(w, currentYear)
+        label: generateLabelFromWeek(w, currentYear),
       });
     }
   }

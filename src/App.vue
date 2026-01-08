@@ -1,28 +1,22 @@
 <script setup lang="ts">
 import NavigationHeader from "./components/NavigationHeader.vue";
 import ErrorLottie from "./components/ErrorLottie.vue";
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView } from "vue-router";
 import WeekSelector from "./components/WeekSelector.vue";
 import LoadingLottie from "./components/LoadingLottie.vue";
-
-
-
-
-
-
+import Buscador from "./components/Buscador.vue";
 </script>
 
 <template>
-<!--  <LoadingLottie />-->
+  <!--  <LoadingLottie />-->
   <NavigationHeader />
 
-
   <div class="sub-header-wrapper">
+    <Buscador />
+
     <WeekSelector />
   </div>
   <RouterView />
-
-
 </template>
 
 <style>
@@ -34,7 +28,7 @@ body {
 body {
   background-color: #ffffff;
   margin: 0;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 </style>
 
@@ -49,11 +43,12 @@ body {
   background-color: #f5f5f5;
   z-index: 990;
   padding: 10px 16px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .container {
@@ -77,13 +72,13 @@ p {
   font-weight: bold;
 }
 
-
 * {
   margin: 0;
   padding: 0;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   overflow: hidden;
 }
@@ -100,5 +95,4 @@ body {
 ::-webkit-scrollbar-thumb {
   background: transparent;
 }
-
 </style>

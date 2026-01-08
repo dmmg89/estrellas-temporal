@@ -141,3 +141,25 @@ export const getScore = async (ceco:number, week:number, year:number) : Promise<
     }
 
 }
+
+export const getVerbalizacion = async (ceco:number) : Promise<ScoreModel> =>{
+    try{
+        const endpoint: string =   '/v1/verbalizaciones';
+        const params = {
+            ceco:ceco
+        }
+        const apiResponse = await fetchData<ScoreModel>(endpoint,params);
+        if(apiResponse ){
+            console.log(JSON.stringify(apiResponse));
+            return apiResponse
+        }else {
+            console.log("Mock -> calificacion ", JSON.stringify(apiResponse));
+            return null;
+        }
+
+    }catch (error:any) {
+        console.log("Mock -> calificacion ", error);
+        return null;
+    }
+
+}
