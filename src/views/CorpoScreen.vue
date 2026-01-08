@@ -1,16 +1,23 @@
 <script setup lang="ts">
-import {onMounted, ref, watch} from "vue";
+import { onMounted, ref, watch } from "vue";
 import TrimScoreCard from "../components/TrimScoreCard.vue";
 import WeekScoreBar from "../components/WeekScoreBar.vue";
 import RankingList from "../components/RankingList.vue";
 import CorpoSelector from "../components/CorpoSelector.vue";
 import Footer from "../components/Footer.vue";
-import type {RankingItemModel, RankingModel} from "../models/RankingModel.ts";
-import type {ScoreModel} from "../models/ScoreModel.ts";
-import {useStateStore} from "../store/StateStore.ts";
-import {storeToRefs} from "pinia";
-import {getHistory, getRanking, getScore} from "../api/mockService/ApiMockImpl.ts";
-import type {HistoryModel, HistoryWeekModel} from "../models/HistoryWeekModel.ts";
+import type { RankingItemModel, RankingModel } from "../models/RankingModel.ts";
+import type { ScoreModel } from "../models/ScoreModel.ts";
+import { useStateStore } from "../store/StateStore.ts";
+import { storeToRefs } from "pinia";
+import {
+  getHistory,
+  getRanking,
+  getScore,
+} from "../api/mockService/ApiMockImpl.ts";
+import type {
+  HistoryModel,
+  HistoryWeekModel,
+} from "../models/HistoryWeekModel.ts";
 import HistoryChart from "../components/HistoryChart.vue";
 import LoadingLottie from "../components/LoadingLottie.vue";
 
@@ -28,13 +35,12 @@ const loadData = async () => {
     const [scoreRes, historyRes, rankingRes] = await Promise.all([
       getScore(0, week.value, 2025),
       getHistory(0),
-      getRanking(0, week.value, 2025)
+      getRanking(0, week.value, 2025),
     ]);
 
     scoreData.value = scoreRes;
     historyList.value = historyRes;
     rankingList.value = rankingRes;
-
   } catch (error) {
     console.error("Error cargando datos:", error);
   } finally {
@@ -43,50 +49,45 @@ const loadData = async () => {
 };
 
 watch(
-    [week, level, ceco],
-    () => {
-      loadData();
-    },
-    { immediate: true }
+  [week, level, ceco],
+  () => {
+    loadData();
+  },
+  { immediate: true }
 );
 </script>
 
 <template>
   <div class="page-container">
-
     <div v-if="isLoading" class="loading-state">
-      <LoadingLottie/>
+      <LoadingLottie />
     </div>
 
     <div v-else-if="!isLoading && scoreData" class="success-wrapper">
-
       <div class="body-content">
         <TrimScoreCard
-            :trim-score="scoreData.califTrimestre"
-            zone="Corporativo"
-            :current-week="week"
+          :trim-score="scoreData.califTrimestre"
+          zone="Corporativo"
+          :current-week="week"
         />
 
         <WeekScoreBar :score="scoreData.califSemana" />
 
         <HistoryChart title="Tendencia" :data="historyList" />
-<!--        <CorpoSelector/>-->
+        <!--        <CorpoSelector/>-->
         <RankingList title="Divisiones" :week="week" :items="rankingList" />
       </div>
 
-      <Footer/>
-
+      <Footer />
     </div>
 
     <div v-else class="error-state">
       <p>No se pudo cargar la información.</p>
     </div>
-
   </div>
 </template>
 
 <style scoped>
-
 .success-wrapper {
   width: 100%;
   display: flex;
@@ -98,14 +99,8 @@ watch(
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  gap: 20px;
-  padding: 20px 10px;
+  width: 100vw;
+  padding: 20px;
   box-sizing: border-box;
-}
-
-.body-content > * {
-  width: 100%;
-  max-width: 380px;
 }
 </style>

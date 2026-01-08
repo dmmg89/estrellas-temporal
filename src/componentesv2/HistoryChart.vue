@@ -216,7 +216,7 @@ const chartOptions = computed<ChartOptions<"line">>(() => {
   width: calc(100vw - 83px);
   background-color: #f6f7f9;
   padding: 20px;
-  margin: 60px auto 0 auto;
+  margin: 30px auto 0 auto;
 
   border-radius: 21px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
