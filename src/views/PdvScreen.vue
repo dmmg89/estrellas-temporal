@@ -9,12 +9,16 @@ import type { RankingItemModel, RankingModel } from "../models/RankingModel.ts";
 import type { ScoreModel } from "../models/ScoreModel.ts";
 import { useStateStore } from "../store/StateStore.ts";
 import { storeToRefs } from "pinia";
+import { EmpleadoData } from "../models/EmpleadoData.ts";
+import VerbalizationsCard from "../components/VerbalizationsCard.vue";
 import {
   getAtributes,
   getHistory,
   getRanking,
   getScore,
+  getTeam,
   getTermometer,
+  getVerbalizacion,
 } from "../api/mockService/ApiMockImpl.ts";
 import type {
   HistoryModel,
@@ -36,26 +40,41 @@ const historyList = ref<HistoryModel>();
 const rankingList = ref<RankingModel | null>(null);
 const atributesList = ref<AtributeModel | null>(null);
 const termometerList = ref<AtributeModel | null>(null);
+const teamList = ref<EmpleadoData[] | null>(null);
+const comments = ref<string[] | null>(null);
 // const verbList = ref<
 
 const loadData = async () => {
   try {
     store.setLoading(true);
 
-    const [scoreRes, historyRes, rankingRes, atributeRes, termometerRes] =
-      await Promise.all([
-        getScore(ceco.value, week.value, 2025),
-        getHistory(ceco.value),
-        getRanking(ceco.value),
-        getAtributes(ceco.value, week.value, 2025),
-        getTermometer(ceco.value, week.value, 2025),
-      ]);
+    const [
+      scoreRes,
+      historyRes,
+      rankingRes,
+      atributeRes,
+      termometerRes,
+      teamRes,
+      verbRes,
+    ] = await Promise.all([
+      getScore(ceco.value, week.value, 2025),
+      getHistory(ceco.value),
+      getRanking(ceco.value),
+      getAtributes(ceco.value, week.value, 2025),
+      getTermometer(ceco.value, week.value, 2025),
+      getTeam(ceco.value, week.value),
+      getVerbalizacion(ceco.value),
+    ]);
+
+    console.log("Respuesta equipo" + JSON.stringify(termometerRes, null, 2));
 
     scoreData.value = scoreRes;
     historyList.value = historyRes;
     rankingList.value = rankingRes;
     atributesList.value = atributeRes;
     termometerList.value = termometerRes;
+    teamList.value = teamRes;
+    comments.value = verbRes;
   } catch (error) {
     console.error("Error cargando datos:", error);
   } finally {
@@ -95,9 +114,15 @@ watch(
 
         <TermometroCard v-if="atributesList" :items="atributesList" />
 
+        <!--        <AsesoresCard  :item="datosEmpleado"/>-->
 
-        <AsesoresCard />
+        <div v-if="teamList && teamList.length > 0" class="team-list-container">
+          <template v-for="asesor in teamList" :key="asesor.idEmpleado">
+            <AsesoresCard v-if="asesor.metricas_semana" :item="asesor" />
+          </template>
+        </div>
 
+        <VerbalizationsCard :items="comments" :total-count="140" />
         <!--      <RankingList title="Puntos de Venta" :week="week" :items="rankingList" />-->
       </div>
 
@@ -118,5 +143,13 @@ watch(
   width: 100vw;
   padding: 20px;
   box-sizing: border-box;
+}
+
+.team-list-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 16px;
+  margin-top: 20px;
 }
 </style>

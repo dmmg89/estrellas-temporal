@@ -173,8 +173,8 @@ const funCapitalizar = (str: string) =>
 .ranking-card {
   background-color: white;
   border-radius: 20px;
-  padding: 20px 0;
-  width: 100%;
+  padding: 20px;
+  width: calc(100vw - 20px);
   margin-top: 20px;
 }
 
@@ -201,6 +201,8 @@ const funCapitalizar = (str: string) =>
   font-weight: 600;
   color: #374151;
   margin: 0;
+  text-align: left;
+  line-height: 19px;
 }
 
 .subtitle {
@@ -208,6 +210,7 @@ const funCapitalizar = (str: string) =>
   font-size: 12px;
   text-align: left;
   margin-top: 0px;
+  margin-left: 32px;
 }
 
 .sort-btn {

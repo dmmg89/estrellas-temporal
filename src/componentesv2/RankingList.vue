@@ -186,6 +186,7 @@ const capitalizeWords = (text: string): string => {
   font-size: 16px;
   font-weight: 600;
   color: #374151;
+  text-align: center;
 }
 
 .clasi {

@@ -2,40 +2,40 @@
 // No necesitamos importar ref porque el estado vendrá de fuera
 
 // Definimos el tipo (opcional, pero buena práctica)
-type SelectionOption = 'División' | 'Territorio';
+type SelectionOption = "División" | "Territorio";
 
 // 1. Recibimos el valor actual desde el padre
 const props = defineProps<{
-  modelValue: SelectionOption
+  modelValue: SelectionOption;
 }>();
 
 // 2. Definimos el evento para avisar al padre del cambio
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: SelectionOption): void
+  (e: "update:modelValue", value: SelectionOption): void;
 }>();
 
 const selectOption = (option: SelectionOption) => {
   if (props.modelValue === option) return;
 
   // 3. En lugar de cambiar una variable local, emitimos el evento
-  emit('update:modelValue', option);
+  emit("update:modelValue", option);
 };
 </script>
 
 <template>
   <div class="toggle-container">
     <button
-        @click="selectOption('División')"
-        class="toggle-btn"
-        :class="{ 'active': modelValue === 'División' }"
+      @click="selectOption('División')"
+      class="toggle-btn"
+      :class="{ active: modelValue === 'División' }"
     >
       División
     </button>
 
     <button
-        @click="selectOption('Territorio')"
-        class="toggle-btn"
-        :class="{ 'active': modelValue === 'Territorio' }"
+      @click="selectOption('Territorio')"
+      class="toggle-btn"
+      :class="{ active: modelValue === 'Territorio' }"
     >
       Territorio
     </button>
@@ -49,6 +49,7 @@ const selectOption = (option: SelectionOption) => {
   justify-content: center;
   gap: 12px;
   padding: 10px;
+  margin: 20px 0 20px 0;
 }
 .toggle-btn {
   background-color: #f0f2f5;

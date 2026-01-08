@@ -4,6 +4,7 @@ import type {RankingModel} from "../../models/RankingModel.ts";
 import type {HistoryModel} from "../../models/HistoryWeekModel.ts";
 import type {AtributeModel} from "../../models/AtributeItemModel.ts";
 import type {ScoreModel} from "../../models/ScoreModel.ts";
+import type {EmpleadoData} from "../../models/EmpleadoData.ts"
 
 
 export const getComments = async (ceco:number, level:number, week:number, year:number) : Promise<CommentsModel> =>{
@@ -166,13 +167,13 @@ export const getScore = async (ceco:number, week:number, year:number) : Promise<
 
 }
 
-export const getVerbalizacion = async (ceco:number) : Promise<ScoreModel> =>{
+export const getVerbalizacion = async (ceco:number) : Promise<string[]> =>{
     try{
         const endpoint: string =   '/v1/verbalizaciones';
         const params = {
             ceco:ceco
         }
-        const apiResponse = await fetchData<ScoreModel>(endpoint,params);
+        const apiResponse = await fetchData<string[]>(endpoint,params);
         if(apiResponse ){
             console.log(JSON.stringify(apiResponse));
             return apiResponse
@@ -186,4 +187,46 @@ export const getVerbalizacion = async (ceco:number) : Promise<ScoreModel> =>{
         return null;
     }
 
+}
+
+export const getTeam = async (ceco:number, week:number) : Promise<EmpleadoData[]> =>{
+    try{
+        const endpoint: string =   '/v1/usuarios';
+        const params = {
+            ceco:ceco,
+            semana:week,
+        }
+        const apiResponse = await fetchData<EmpleadoData[]>(endpoint,params);
+        if(apiResponse ){
+            console.log(JSON.stringify(apiResponse));
+            return apiResponse
+        }else {
+            console.log("Mock -> calificacion ", JSON.stringify(apiResponse));
+            return null;
+        }
+
+    }catch (error:any) {
+        console.log("Mock -> calificacion ", error);
+        return null;
+    }
+
+}
+
+export const getUserByID = async (id:string) : Promise<EmpleadoData>=>{
+    try{
+        const endpoint: string =   `/v1/usuarios/${id}`;
+
+        const apiResponse = await fetchData<EmpleadoData>(endpoint);
+        if(apiResponse ){
+            console.log(JSON.stringify(apiResponse));
+            return apiResponse
+        }else {
+            console.log("Mock -> calificacion ", JSON.stringify(apiResponse));
+            return null;
+        }
+
+    }catch (error:any) {
+        console.log("Mock -> calificacion ", error);
+        return null;
+    }
 }

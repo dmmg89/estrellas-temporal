@@ -1,11 +1,49 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { computed, onMounted, ref } from "vue";
+import type { EmpleadoData } from "../models/EmpleadoData.ts";
+import { useRouter } from "vue-router";
+import { ProfilePath } from "../router";
+import { useStateStore } from "../store/StateStore.ts";
+
+const router = useRouter();
+const stateStore = useStateStore();
+
+const navigateToEmployee = (id: string) => {
+  // stateStore.setId(id);
+  router.push(ProfilePath.employee);
+};
+
+const props = defineProps<{
+  item: EmpleadoData;
+}>();
 
 const fotoEmp = ref("");
 
+const nombreFormateado = computed(() => {
+  if (!props.item.nombre) return "";
+  return props.item.nombre
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+});
+
+const formatNumber = (num: number) => {
+  return num ? num.toFixed(2).replace(".", ",") : "0,00";
+};
+
+const getColorClass = (val: number) => {
+  if (val >= 4.5) return "verde";
+  if (val >= 3) return "amarillo";
+  return "naranja";
+};
+
+const esquemaSemanas = computed(() => {
+  return "0 Semanas";
+});
+
 onMounted(async () => {
-  const url =
-    "https://www.productividadzeus.com/concursos/fotos/colaboradores/?code=1139800";
+  const url = `https://www.productividadzeus.com/concursos/fotos/colaboradores/?code=${item.idEmpleado}`;
   const res = await fetch(url);
   const data = await res.json();
   fotoEmp.value = data.file_base64;
@@ -13,7 +51,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <section id="equipo">
+  <section id="equipo" @click="navigateToEmployee">
     <div class="equipo-info">
       <div class="info-foto">
         <div class="cont-foto verde">
@@ -28,9 +66,11 @@ onMounted(async () => {
       </div>
       <div class="info-equipo">
         <div class="perfil-tit">
-          <span>Reyes Adan Rodriguez De La Rosa (260704)</span>
+          <span>{{ nombreFormateado }} ({{ item.idEmpleado }})</span>
         </div>
-        <div class="perfil-sub">Asesor de Préstamo</div>
+        <div class="perfil-sub">
+          {{ item.posicionNombre }}
+        </div>
       </div>
 
       <div class="item-equipo">></div>
@@ -40,17 +80,23 @@ onMounted(async () => {
       <div class="item-ind verde">
         <img src="../assets/icons/calificacionamarillo.svg" alt="" />
         <span>Calificación</span>
-        <div class="valor">3,09</div>
+        <div class="valor">
+          {{ formatNumber(item.metricas_semana.calificacion_semana) }}
+        </div>
       </div>
       <div class="item-ind naranja">
         <img src="../assets/icons/ENCUESTAS.svg" alt="" />
         <span>Encuestas</span>
-        <div class="valor">3,09</div>
+        <div class="valor">
+          {{ item.metricas_semana.num_encuestas_trimestre }}
+        </div>
       </div>
       <div class="item-ind amarillo">
         <img src="../assets/icons/esquema.svg" alt="" />
         <span>Esquema</span>
-        <div class="valor">3 Semanas</div>
+        <div class="valor">
+          {{ esquemaSemanas }}
+        </div>
       </div>
     </div>
   </section>

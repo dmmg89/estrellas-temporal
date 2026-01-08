@@ -174,7 +174,7 @@ const chartOptions = computed<ChartOptions<"line">>(() => {
       },
       y: {
         min: 3.8,
-        max: 5.0,
+        max: 5.1,
         grid: {
           color: function (context) {
             if (context.tick.value === 5.0) return "transparent"; // <- última línea
@@ -222,7 +222,7 @@ const chartOptions = computed<ChartOptions<"line">>(() => {
       </div>
       <div class="legend-item">
         <span class="dot goal-dot"></span>
-        <span class="legend-text">Objetivo</span>
+        <span class="legend-text">Objetivo: 5.0</span>
       </div>
     </div>
   </div>
