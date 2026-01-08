@@ -93,10 +93,10 @@ const backInitNav = (): void => {
 <style scoped>
 .app-header {
   position: fixed;
+  z-index: 99999;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -118,8 +118,7 @@ const backInitNav = (): void => {
 .logo h1 {
   font-weight: 600;
   text-align: left;
-  font-size: 1.1rem;
-  margin-left: 5%;
+  font-size: 16px;
 }
 
 .button-group {
@@ -135,38 +134,10 @@ const backInitNav = (): void => {
   flex-grow: 1;
 }
 
-.circular-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  overflow: hidden;
-  cursor: pointer;
-  background-color: #E4E8F7;
-  border: none;
-}
-
-.circular-button:hover {
-  background-color: #ddd;
-}
 
 
-@media (max-width: 768px) {
-  .logo h1 {
-    font-size: 1.1rem;
-  }
 
-  .circle-button {
-    width: 35px;
-    height: 35px;
-    font-size: 1rem;
-  }
 
-  .app-header {
-    padding: 10px 16px;
-  }
-}
+
+
 </style>

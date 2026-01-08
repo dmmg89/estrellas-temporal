@@ -1,18 +1,24 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import {computed, onMounted, onUpdated} from 'vue';
 import type {AtributeModel} from "../models/AtributeItemModel.ts";
 
 const props = defineProps<{
   items: AtributeModel
 }>();
 
-// Modificamos la función para recibir también el score
+onMounted(() => {
+  console.log('TermometerCard received items:', props.items);
+});
+
+onUpdated(() => {
+  console.log('TermometerCard updated items:', props.items);
+});
+
 const getAttributesConfig = (name: string, score: number) => {
   const normalized = name.toLowerCase();
 
-  // 1. Definimos la configuración base según el nombre
   let config = {
-    color: '#2979FF', // Default blue
+    color: '#2979FF',
     icon: 'star',
     gradient: 'linear-gradient(90deg, #2979FF 0%, #448AFF 100%)'
   };
@@ -37,13 +43,15 @@ const getAttributesConfig = (name: string, score: number) => {
     };
   }
 
-  // 2. APLICAMOS LA REGLA DEL 0: Si el valor es 0, forzamos color GRIS
   if (score === 0) {
     config.color = '#9E9E9E'; // Gris
     config.gradient = 'linear-gradient(90deg, #9E9E9E 0%, #BDBDBD 100%)';
   }
 
   return config;
+
+
+
 };
 
 const getPercentage = (score: number) => Math.round(score * 100);

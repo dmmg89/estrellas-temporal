@@ -26,7 +26,7 @@ const formattedScore = computed((): string => {
 
 <template>
   <div class="week-score-bar">
-    <h3 class="label">Semanal</h3>
+    <h3 class="label">Calificación Semanal</h3>
 
     <div class="bar-wrapper">
       <span class="range-text min">{{ MIN_VALUE.toFixed(1) }}</span>
@@ -34,7 +34,7 @@ const formattedScore = computed((): string => {
       <div class="track">
         <div class="fill" :style="{ width: fillPercentage }">
           <div class="marker-container">
-            <img src="../assets/icons/ic_small_star.svg">
+            <img class="star" src="../assets/icons/ic_small_star.svg">
 
             <span class="score-value">{{ formattedScore }}</span>
           </div>
@@ -48,17 +48,16 @@ const formattedScore = computed((): string => {
 
 <style scoped>
 .week-score-bar {
-  max-width: 400px;
-  padding: 0 1rem;
+  width: 75%;
   text-align: left;
+  margin: 30px auto;
 }
 
 .label {
   color: #3EC53E;
   font-weight: 700;
-  font-size: 16px;
-  margin-bottom: 0.5rem;
-
+  font-size: 14px;
+  margin-bottom: 10px;
 }
 
 .bar-wrapper {
@@ -68,9 +67,9 @@ const formattedScore = computed((): string => {
 }
 
 .range-text {
-  color: #9CA3AF;
-  font-weight: 600;
-  font-size: 14px;
+  color: #bcbcbc;
+  font-weight: 800;
+  font-size: 12px;
 }
 
 .track {
@@ -79,6 +78,7 @@ const formattedScore = computed((): string => {
   background-color: #E5E7EB;
   border-radius: 10px;
   position: relative;
+  margin-left: 10px;
 }
 
 .fill {
@@ -99,18 +99,15 @@ const formattedScore = computed((): string => {
   align-items: center;
   z-index: 10;
 }
-
-.star-icon {
-  width: 24px;
-  height: 24px;
-  color: #FBBF24;
-  filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.15));
+.star {
+  width: 100%;
+  margin-top: -3px;
 }
 
 .score-value {
-  color: #3EC53E;
+  color: #06884c;
   font-weight: 800;
-  font-size: 1rem;
+  font-size: 14px;
   margin-top: 2px;
 }
 </style>

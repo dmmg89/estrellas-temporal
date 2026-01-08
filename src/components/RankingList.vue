@@ -2,7 +2,6 @@
 import { computed, ref } from 'vue';
 import router, { ProfilePath } from "../router";
 import type {RankingItemModel, RankingModel} from "../models/RankingModel.ts";
-// 1. Importar el Store
 import { useStateStore } from "../store/StateStore.ts";
 
 interface Props {
@@ -33,6 +32,7 @@ const sortedItems = computed<RankingItemNumeric[]>(() => {
 
   const sorted = mappedList.sort((a, b) => {
     let comparison = 0;
+
     if (isDescending.value) {
       comparison = b.calificacion - a.calificacion;
     } else {
@@ -40,15 +40,24 @@ const sortedItems = computed<RankingItemNumeric[]>(() => {
     }
 
     if (comparison === 0) {
-      return a.ranking - b.ranking;
+      if (isDescending.value) {
+        return a.ranking - b.ranking;
+      } else {
+        return b.ranking - a.ranking;
+      }
     }
 
     return comparison;
   });
 
+  // --- CORRECCIÓN AQUÍ ---
+  const totalItems = sorted.length;
+
   return sorted.map((item, index) => ({
     ...item,
-    ranking: index + 1
+    // Si es descendente (normal): 1, 2, 3...
+    // Si es ascendente (invertido): Total, Total-1, ... 1
+    ranking: isDescending.value ? (index + 1) : (totalItems - index)
   }));
 });
 
@@ -269,10 +278,13 @@ const handleClick = async (item: RankingItemNumeric) => {
   color: #4B5563;
   margin-left: 40px;
   margin-top: 12px;
-  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
   cursor: pointer;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.2;
 }
 
 .item-score-container {
@@ -285,6 +297,7 @@ const handleClick = async (item: RankingItemNumeric) => {
 .score-text {
   font-weight: 700;
   font-size: 1rem;
+  margin-left: 10px;
 }
 
 .text-dark {

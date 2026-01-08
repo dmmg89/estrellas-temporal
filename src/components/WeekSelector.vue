@@ -78,7 +78,7 @@ const handleChange = (event: Event) => {
 .selector-label {
   font-weight: 500;
   color: #555;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .select-wrapper {
@@ -91,13 +91,13 @@ const handleChange = (event: Event) => {
   background-color: white;
   border: 1px solid #e0e0e0;
   border-radius: 6px;
-  padding: 8px 36px 8px 12px;
-  font-size: 13px;
-  font-weight: 600;
+  padding: 8px 20px;
+  padding-right: 50px;
+  font-size: 11px;
+  font-weight: 500;
   color: #333;
   cursor: pointer;
   outline: none;
-  min-width: 280px;
   transition: border-color 0.2s;
 }
 

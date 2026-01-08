@@ -47,7 +47,9 @@ const COLORS = {
   grayAreaBorder: 'transparent',
   greenAnnotation: '#32c759',
   gridLines: '#626260',
-  textGray: '#9CA3AF'
+  textGray: '#9CA3AF',
+  text: "#333333",
+  rojo: "#E71618",
 };
 
 const chartData = computed<ChartData<'line'>>(() => {
@@ -81,8 +83,8 @@ const chartData = computed<ChartData<'line'>>(() => {
         data: scoreData,
         borderColor: COLORS.blueLine,
         backgroundColor: COLORS.bluePointBg,
-        borderWidth: 3,
-        pointRadius: 6,
+        borderWidth: 1,
+        pointRadius: 3,
         pointHoverRadius: 8,
         pointBorderWidth: 3,
         tension: 0.3,
@@ -93,7 +95,7 @@ const chartData = computed<ChartData<'line'>>(() => {
         label: 'Meta',
         data: goalData,
         borderColor: COLORS.grayAreaBorder,
-        backgroundColor: COLORS.grayAreaBg,
+        backgroundColor: "transparent",
         pointRadius: 0,
         tension: 0.4,
         fill: 'start',
@@ -123,26 +125,26 @@ const chartOptions = computed<ChartOptions<'line'>>(() => {
       annotation: {
         annotations: {
           maxLine: {
-            type: 'line',
-            yMin: 5.00,
-            yMax: 5.00,
-            borderColor: COLORS.greenAnnotation,
-            borderWidth: 2,
+            type: "line",
+            yMin: 5.0,
+            yMax: 5.0,
+            borderColor: COLORS.rojo,
+            borderWidth: 1,
             borderDash: [6, 6],
             label: {
               display: true,
-              content: '5.00',
-              position: 'start',
-              backgroundColor: 'transparent',
+              position: "start",
+              backgroundColor: "transparent",
               color: COLORS.textGray,
               font: {
-                size: 12
+                size: 11,
               },
-              yAdjust: -10
-            }
-          }
-        }
-      }
+              yAdjust: -5,
+              xAdjust: 10,
+            },
+          },
+        },
+      },
     },
     scales: {
       x: {
@@ -168,8 +170,12 @@ const chartOptions = computed<ChartOptions<'line'>>(() => {
         min: 3.8,
         max: 5.0,
         grid: {
-          color: COLORS.gridLines,
-          tickLength: 0,
+          color: function (context) {
+            if (context.tick.value === 5.0) return "transparent"; // <- última línea
+            return COLORS.gridLines;
+          },
+          tickLength: 3,
+          lineWidth: 0.3,
         },
         border: {
           display: false,
@@ -221,24 +227,25 @@ const chartOptions = computed<ChartOptions<'line'>>(() => {
 
 <style scoped>
 .history-chart-card {
-  border-radius: 24px;
-  padding: 12px 0;
-  margin-top: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-  max-width: 420px;
+  width: calc(100vw - 83px);
+  background-color: #f6f7f9;
+  padding: 20px;
+  margin: 60px auto 0 auto;
+
+  border-radius: 21px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
 }
 
 .chart-title {
-  margin: 0 0 0.3rem 0;
-  color: #374151;
-  font-size: 16px;
-  font-weight: 700;
+  color: #393a36;
+  font-size: 15px;
+  font-weight: 600;
   text-align: left;
 }
 
 .chart-container-wrapper {
   position: relative;
-  height: 250px;
+  height: 180px;
   width: 100%;
 }
 .custom-legend {
@@ -262,16 +269,16 @@ const chartOptions = computed<ChartOptions<'line'>>(() => {
 }
 
 .legend-text {
-  font-size:12px;
-  color: #6B7280;
+  font-size: 11px;
+  color: #6b7280;
   font-weight: 500;
 }
 
 .actual-dot {
-  background-color: #3D87E0;
+  background-color: #1a73e8;
 }
 
 .goal-dot {
-  background-color: #DA281C;
+  background-color: #d93025;
 }
 </style>

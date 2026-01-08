@@ -35,16 +35,16 @@ const props = defineProps<Props>();
 <style scoped>
 /* Los estilos permanecen iguales */
 .navigation-button {
-  width: 48px;
-  height: 48px;
-  background-color: #E4E8F7;
+  width: 35px;
+  height: 35px;
+  background-color: #e4e8f7;
   border-radius: 50%;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  padding: 0;
 }
 
 /* Corregido: El selector original era .nav-button:hover, pero la clase es .navigation-button */
@@ -52,8 +52,11 @@ const props = defineProps<Props>();
   background-color: #d0d7f0; /* Ligeramente diferente para mostrar el hover */
 }
 
+.navigation-button:focus {
+  outline: none;
+}
+
 .icon {
-  width: 24px;
-  height: 24px;
+  width: 17px;
 }
 </style>

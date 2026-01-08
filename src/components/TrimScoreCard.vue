@@ -9,8 +9,7 @@ const props = defineProps<{
 
 const MIN_VALUE = 0;
 const MAX_VALUE = 5;
-
-const RADIUS = 80;
+const RADIUS = 90;
 const ARC_LENGTH = Math.PI * RADIUS;
 
 const DIVISIONS = 4;
@@ -56,7 +55,7 @@ const strokeDashoffset = computed(() => {
 
 const arrowRotation = computed(() => {
   const percentage = clampedScore.value / MAX_VALUE;
-  const degrees = (percentage * 180) - 90;
+  const degrees = percentage * 180 - 90;
   return `rotate(${degrees}deg)`;
 });
 
@@ -92,56 +91,69 @@ const feedbackMessage = computed(() => {
             <stop offset="100%" style="stop-color:#FBBF24;stop-opacity:1" />
           </linearGradient>
           <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-            <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="rgba(0,0,0,0.3)"/>
+            <feDropShadow
+              dx="0"
+              dy="2"
+              stdDeviation="2"
+              flood-color="rgba(0,0,0,0.3)"
+            />
           </filter>
         </defs>
 
         <path
-            d="M 20 100 A 80 80 0 0 1 180 100"
-            fill="none"
-            stroke="#E5E7EB"
-            stroke-width="10"
-            stroke-linecap="round"
+          d="M 20 100 A 80 80 0 0 1 180 100"
+          fill="none"
+          stroke="#E5E7EB"
+          stroke-width="10"
+          stroke-linecap="round"
         />
 
         <path
-            d="M 20 100 A 80 80 0 0 1 180 100"
-            fill="none"
-            stroke="#32c759"
-            stroke-width="10"
-            stroke-linecap="round"
-            stroke-dasharray="251.33"
-            :stroke-dashoffset="strokeDashoffset"
-            class="progress-bar"
+          d="M 20 100 A 80 80 0 0 1 180 100"
+          fill="none"
+          stroke="#32c759"
+          stroke-width="10"
+          stroke-linecap="round"
+          stroke-dasharray="251.32"
+          :stroke-dashoffset="strokeDashoffset"
+          class="progress-bar"
         />
 
         <g stroke="white" stroke-width="2">
           <line
-              v-for="(line, index) in divisionLines"
-              :key="index"
-              x1="100"
-              y1="100"
-              :x2="line.x2"
-              :y2="line.y2"
+            v-for="(line, index) in divisionLines"
+            :key="index"
+            x1="100"
+            y1="100"
+            :x2="line.x2"
+            :y2="line.y2"
           />
         </g>
 
-        <g class="arrow-group" :style="{ transformOrigin: '100px 100px', transform: arrowRotation }">
-          <path
-              d="M 91 0 L 109 0 L 109 12 L 100 22 L 91 12 Z"
-              fill="#32c759"
-              stroke="white"
-              stroke-width="2"
-              filter="url(#shadow)"
+        <g
+          class="arrow-group"
+          :style="{ transformOrigin: '100px 100px', transform: arrowRotation }"
+        >
+          <image
+            class="star-fle"
+            href="../assets/icons/fle-gra.svg"
+            x="95"
+            y="-7"
+            width="30"
+            height="30"
           />
         </g>
 
-        <text x="5" y="125" class="limit-text">0.00</text>
-        <text x="195" y="125" class="limit-text" text-anchor="end">5.00</text>
+        <text x="-10" y="100" class="limit-text">0.00</text>
+        <text x="215" y="100" class="limit-text" text-anchor="end">5.00</text>
       </svg>
 
       <div class="star-container">
-        <img src="../assets/icons/ic_big_star.svg">
+        <img
+          class="estrella"
+          src="../assets/icons/ic_big_star.svg"
+          alt=""
+        />
       </div>
     </div>
 
@@ -155,22 +167,22 @@ const feedbackMessage = computed(() => {
 <style scoped>
 .trim-score-card {
   position: relative;
-  width: 380px;
+  width: calc(100vw - 62px);
   padding: 6px;
-  border-radius: 16px;
-  margin-top: 120px;
+  margin-top: 150px;
+  padding: 0 30px;
 }
 
 .badge-quarter {
   position: absolute;
-  top: 24px;
-  right: 24px;
-  background-color: #3EC53E;
+  top: 0;
+  right: 20px;
+  background-color: #01a75d;
   color: white;
   padding: 4px 12px;
   border-radius: 0 12px;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 10px;
 }
 
 .header {
@@ -180,21 +192,21 @@ const feedbackMessage = computed(() => {
 
 .zone-title {
   margin: 0;
-  font-size: 16px;
-  font-weight: 800;
+  font-size: 15px;
+  font-weight: 700;
   color: #333;
 }
 
 .period-subtitle {
-  color: #3EC53E;
-  font-weight: 700;
-  font-size: 14px;
+  color: #3ec53e;
+  font-weight: 600;
+  font-size: 13px;
   display: block;
 }
 
 .week-range {
-  color: #9CA3AF;
-  font-size: 14px;
+  color: #9ca3af;
+  font-size: 11px;
   font-weight: 500;
   margin-top: 2px;
 }
@@ -202,13 +214,14 @@ const feedbackMessage = computed(() => {
 .gauge-container {
   position: relative;
   width: 100%;
-  margin-top: 8px;
+  margin-top: -40px;
 }
 
 .gauge-svg {
   width: 100%;
   height: auto;
   overflow: visible;
+  height: 200px;
 }
 
 .progress-bar {
@@ -219,15 +232,20 @@ const feedbackMessage = computed(() => {
   transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.star-fle {
+  width: 20px;
+}
+
 .limit-text {
   fill: #9CA3AF;
   font-weight: 600;
-  font-size: 0.5rem;
+  font-size: 9px;
+  border: 1px solid #333;
 }
 
 .star-container {
   position: absolute;
-  bottom: 30px;
+  top: 80px;
   left: 50%;
   transform: translateX(-50%);
   width: 70px;
@@ -237,7 +255,9 @@ const feedbackMessage = computed(() => {
   justify-content: center;
 }
 
-
+.estrella {
+  width: 100%;
+}
 
 .score-display {
   margin-top: 0px;
@@ -245,15 +265,19 @@ const feedbackMessage = computed(() => {
 }
 
 .score-number {
-  color: #3EC53E;
+  position: relative;
+  color: #04884d;
   font-size: 20px;
-  font-weight: 900;
+  font-weight: 700;
+  margin-top: -50px;
+  z-index: 9;
 }
 
 .score-message {
-  color: #6B7280;
-  font-size: 16px;
+  color: #6b7280;
+  font-size: 14px;
   font-weight: 600;
-  margin-top: 2px;
+  margin-top: 5px;
+  color: #474844;
 }
 </style>
