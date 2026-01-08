@@ -161,7 +161,6 @@ const feedbackMessage = computed(() => {
 <style scoped>
 .trim-score-card {
   position: relative;
-  width: calc(100vw - 62px);
   padding: 6px;
   margin-top: 180px;
   padding: 0 30px;
@@ -170,7 +169,7 @@ const feedbackMessage = computed(() => {
 .badge-quarter {
   position: absolute;
   top: 0;
-  right: 20px;
+  right: 0px;
   background-color: #01a75d;
   color: white;
   padding: 4px 12px;
@@ -186,6 +185,7 @@ const feedbackMessage = computed(() => {
 
 .zone-title {
   margin: 0;
+  margin-left: -25px;
   font-size: 15px;
   font-weight: 700;
   color: #333;
@@ -196,6 +196,7 @@ const feedbackMessage = computed(() => {
   font-weight: 600;
   font-size: 13px;
   display: block;
+  margin-left: -25px;
 }
 
 .week-range {
@@ -203,6 +204,7 @@ const feedbackMessage = computed(() => {
   font-size: 11px;
   font-weight: 500;
   margin-top: 2px;
+  margin-left: -25px;
 }
 
 .gauge-container {

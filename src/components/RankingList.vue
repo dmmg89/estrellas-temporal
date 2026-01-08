@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref } from "vue";
 import router, { ProfilePath } from "../router";
-import type {RankingItemModel, RankingModel} from "../models/RankingModel.ts";
+import type { RankingItemModel, RankingModel } from "../models/RankingModel.ts";
 import { useStateStore } from "../store/StateStore.ts";
 
 interface Props {
@@ -14,20 +14,22 @@ const props = defineProps<Props>();
 
 const store = useStateStore();
 
-type RankingItemNumeric = Omit<RankingItemModel, 'calificacion'> & { calificacion: number };
+type RankingItemNumeric = Omit<RankingItemModel, "calificacion"> & {
+  calificacion: number;
+};
 
 const isDescending = ref(true);
 
 const parseScore = (val: string | number): number => {
-  if (typeof val === 'number') return val;
+  if (typeof val === "number") return val;
   if (!val) return 0;
-  return parseFloat(val.replace(/,/g, ''));
+  return parseFloat(val.replace(/,/g, ""));
 };
 
 const sortedItems = computed<RankingItemNumeric[]>(() => {
-  const mappedList = props.items.map(item => ({
+  const mappedList = props.items.map((item) => ({
     ...item,
-    calificacion: parseScore(item.calificacion)
+    calificacion: parseScore(item.calificacion),
   }));
 
   const sorted = mappedList.sort((a, b) => {
@@ -57,7 +59,7 @@ const sortedItems = computed<RankingItemNumeric[]>(() => {
     ...item,
     // Si es descendente (normal): 1, 2, 3...
     // Si es ascendente (invertido): Total, Total-1, ... 1
-    ranking: isDescending.value ? (index + 1) : (totalItems - index)
+    ranking: isDescending.value ? index + 1 : totalItems - index,
   }));
 });
 
@@ -81,7 +83,7 @@ const handleClick = async (item: RankingItemNumeric) => {
     // 3: ProfilePath.plazaScreen,
     4: ProfilePath.regionScreen,
     5: ProfilePath.pdv,
-    6: ProfilePath.employee
+    6: ProfilePath.employee,
   };
 
   const targetPath = routesMap[item.nivel];
@@ -92,7 +94,10 @@ const handleClick = async (item: RankingItemNumeric) => {
     console.warn("No hay ruta definida para el nivel:", item.nivel);
     store.setLoading(false);
   }
-}
+};
+
+const funCapitalizar = (str: string) =>
+  str.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
 </script>
 
 <template>
@@ -101,19 +106,19 @@ const handleClick = async (item: RankingItemNumeric) => {
       <div class="title-section">
         <div class="header-row">
           <span class="map-icon">
-            <img src="../assets/icons/ic_map_ranking.svg">
+            <img src="../assets/icons/Division.svg" />
           </span>
-          <h2 class="title">{{ title }}</h2>
+          <h2 class="title">Ranking {{ title }}</h2>
         </div>
         <p class="subtitle">Semana {{ week }}</p>
       </div>
 
       <button class="sort-btn" @click="toggleSort">
         <div class="sort-icon-wrapper">
-          <img src="../assets/icons/ic_switch.svg">
+          <img src="../assets/icons/ic_switch.svg" />
         </div>
         <div class="medal-wrapper">
-          <img src="../assets/icons/ic_ranking_score.svg">
+          <img src="../assets/icons/ic_ranking_score.svg" />
           <span class="sort-label">Calificación</span>
         </div>
       </button>
@@ -121,23 +126,23 @@ const handleClick = async (item: RankingItemNumeric) => {
 
     <div class="list-container">
       <div
-          v-for="item in sortedItems"
-          :key="item.ceco"
-          class="ranking-row"
-          @click="handleClick(item)"
+        v-for="item in sortedItems"
+        :key="item.ceco"
+        class="ranking-row"
+        @click="handleClick(item)"
       >
         <div
-            class="rank-badge"
-            :class="{
-              'rank-top': isTopRank(item.ranking),
-              'rank-regular': !isTopRank(item.ranking)
-            }"
+          class="rank-badge"
+          :class="{
+            'rank-top': isTopRank(item.ranking),
+            'rank-regular': !isTopRank(item.ranking),
+          }"
         >
           {{ item.ranking }}
         </div>
 
         <div class="item-name">
-          {{ item.nombre }}
+          {{ funCapitalizar(item.nombre) }}
         </div>
 
         <div class="item-score-container">
@@ -145,8 +150,17 @@ const handleClick = async (item: RankingItemNumeric) => {
             {{ item.calificacion }}
           </span>
 
-          <svg class="arrow-right" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF"
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg
+            class="arrow-right"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#9CA3AF"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <polyline points="9 18 15 12 9 6"></polyline>
           </svg>
         </div>
@@ -159,8 +173,9 @@ const handleClick = async (item: RankingItemNumeric) => {
 .ranking-card {
   background-color: white;
   border-radius: 20px;
-  padding: 20px;
-  max-width: 500px;
+  padding: 20px 0;
+  width: 100%;
+  margin-top: 20px;
 }
 
 .header {
@@ -182,16 +197,17 @@ const handleClick = async (item: RankingItemNumeric) => {
 }
 
 .title {
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: 17px;
+  font-weight: 600;
   color: #374151;
   margin: 0;
 }
 
 .subtitle {
-  color: #9CA3AF;
-  font-size: 0.9rem;
-  margin: 4px 0 0 36px;
+  color: #9ca3af;
+  font-size: 12px;
+  text-align: left;
+  margin-top: 0px;
 }
 
 .sort-btn {
@@ -199,9 +215,10 @@ const handleClick = async (item: RankingItemNumeric) => {
   border: none;
   cursor: pointer;
   display: flex;
-  align-items: center;
+  align-items: end;
+  justify-content: center;
   gap: 8px;
-  color: #6B7280;
+  color: #6b7280;
   padding: 4px 8px;
   border-radius: 8px;
   transition: background 0.2s;
@@ -215,13 +232,14 @@ const handleClick = async (item: RankingItemNumeric) => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 7px;
 }
 
 .medal-icon {
   width: 20px;
   height: 20px;
-  color: #76C843;
-  fill: #76C843;
+  color: #76c843;
+  fill: #76c843;
 }
 
 .sort-label {
@@ -237,19 +255,19 @@ const handleClick = async (item: RankingItemNumeric) => {
 }
 
 .ranking-row {
+  min-height: 50px;
   display: flex;
   align-items: center;
-  background-color: #F8F9FA;
+  background-color: #f8f9fa;
   border-radius: 12px;
-  padding: 0 0 24px 16px;
   padding-left: 0;
   position: relative;
   overflow: hidden;
 }
 
 .rank-badge {
-  width: 32px;
-  height: 32px;
+  width: 50px;
+  height: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -261,47 +279,50 @@ const handleClick = async (item: RankingItemNumeric) => {
   font-size: 1rem;
   position: absolute;
   left: 0;
+  top: 0;
 }
 
 .rank-top {
-  background-color: #76C843;
-  padding-top: 12px;
+  background-color: #76c843;
 }
 
 .rank-regular {
-  background-color: #D1D5DB;
+  background-color: #d1d5db;
 }
 
 .item-name {
   flex: 1;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #4B5563;
-  margin-left: 40px;
-  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4b5563;
+  margin-left: 60px;
   overflow: hidden;
   cursor: pointer;
   white-space: normal;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  line-height: 1.2;
+  text-align: left;
+  line-height: 16px;
 }
 
 .item-score-container {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 12px;
 }
 
 .score-text {
-  font-weight: 700;
-  font-size: 1rem;
+  font-weight: 600;
+  font-size: 16px;
   margin-left: 10px;
 }
 
 .text-dark {
   color: #374151;
+}
+
+.sort-icon-wrapper {
+  margin-top: -10px;
 }
 </style>
