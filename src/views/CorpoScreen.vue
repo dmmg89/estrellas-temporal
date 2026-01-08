@@ -25,19 +25,15 @@ const loadData = async () => {
   try {
     store.setLoading(true);
 
-    // const [scoreRes, historyRes, rankingRes] = await Promise.all([
-    //   getScore(0, week.value, 2025),
-    //   getHistory(0),
-    //   getRanking(0, week.value, 2025)
-    // ]);
-    const [scoreRes, historyRes ] = await Promise.all([
+    const [scoreRes, historyRes, rankingRes] = await Promise.all([
       getScore(0, week.value, 2025),
       getHistory(0),
+      getRanking(0, week.value, 2025)
     ]);
 
     scoreData.value = scoreRes;
     historyList.value = historyRes;
-    // rankingList.value = rankingRes;
+    rankingList.value = rankingRes;
 
   } catch (error) {
     console.error("Error cargando datos:", error);
@@ -75,7 +71,7 @@ watch(
 
         <HistoryChart title="Tendencia" :data="historyList" />
 <!--        <CorpoSelector/>-->
-<!--        <RankingList title="Divisiones" :week="week" :items="rankingList" />-->
+        <RankingList title="Divisiones" :week="week" :items="rankingList" />
       </div>
 
       <Footer/>

@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto&display=swap');
+
 :root {
+   font-family: "Poppins", sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -23,10 +26,6 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  padding: 0;
-  min-width: 320px;
-  max-width: 420px;
-  min-height: 100vh;
   background-color: #FFFFFF;
 }
 

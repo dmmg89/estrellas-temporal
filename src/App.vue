@@ -26,9 +26,9 @@ import LoadingLottie from "./components/LoadingLottie.vue";
 </template>
 
 <style>
-
-html, body {
-  max-width: 100%;
+html,
+body {
+  max-width: 100vw;
   overflow-x: hidden;
 }
 body {
@@ -40,8 +40,10 @@ body {
 
 <style scoped>
 .sub-header-wrapper {
+  background-color: #f6f7f9;
+  box-shadow: 0px 3px 6px #00000029;
   position: fixed;
-  top: 64px;
+  top: 63px;
   left: 0;
   width: 100%;
   background-color: #f5f5f5;
