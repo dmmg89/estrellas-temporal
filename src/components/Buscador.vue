@@ -3,9 +3,27 @@ import { ref } from "vue";
 
 const texto = ref("");
 const mostrar = ref(false);
+const resultados = ref([]);
 
-function onInput() {
-  mostrar.value = texto.value.length >= 3;
+async function onInput() {
+  if (texto.value.length < 3) {
+    mostrar.value = false;
+    resultados.value = [];
+    return;
+  }
+
+  const url = `https://estrellas-servicio-619410699718.us-central1.run.app/v1/buscador?termino=${encodeURIComponent(
+    texto.value
+  )}&nivel=0`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    resultados.value = data.resultados || [];
+    mostrar.value = resultados.value.length > 0;
+  } catch (e) {
+    mostrar.value = false;
+  }
 }
 </script>
 
@@ -25,11 +43,9 @@ function onInput() {
     </div>
     <div class="respuesta" v-if="mostrar">
       <ul>
-        <li>Fernando Robles Cortes</li>
-        <li>Alberto Miguel Hernández Ramírez</li>
-        <li>José Ricardo Martínez López</li>
-        <li>Carlos Eduardo Ramírez Hernández</li>
-        <li>Jorge Sebastián Vargas Torres</li>
+        <li v-for="item in resultados" :key="item.id_ceco">
+          {{ item.nivel }}
+        </li>
       </ul>
     </div>
   </section>
