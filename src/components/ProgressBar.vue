@@ -188,13 +188,13 @@ const data = computed<AttributeData[]>(() => {
   font-size: 10px;
   height: 100%;
   position: relative; /* Necesario para que z-index funcione */
-  min-width: 0; /* Permite que las barras se reduzcan */
+  min-width: ; /* Permite que las barras se reduzcan */
   flex-shrink: 0; /* Evita que se compriman */
 }
 
 .green {
   background-color:rgba(117, 203, 67, 0.99);
-  border-radius: 20px 10px 10px 20px ;
+  border-radius: 20px 20px 20px 20px ;
   z-index: 1; /* Queda atrás */
 }
 
@@ -204,7 +204,7 @@ const data = computed<AttributeData[]>(() => {
   z-index: 2; /* Queda adelante */
   
   /* --- ESTO MUEVE LA BARRA HACIA LA IZQUIERDA --- */
-  margin-left: -10px; 
+  margin-left: -px; 
   /* Puedes ajustar este valor (ej: -10px, -20px) según qué tanto 
      quieras que se encime sobre la verde */
 }
