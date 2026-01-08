@@ -7,6 +7,7 @@ import CorpoScreen from "../views/CorpoScreen.vue";
 import ErrorScreen from "../views/ErrorScreen.vue";
 import RegionScreen from "../views/RegionScreen.vue";
 import PdvScreen from "../views/PdvScreen.vue";
+import AssesorScreen from "../views/AssesorScreen.vue";
 
 
 export enum ProfilePath{
@@ -17,6 +18,7 @@ export enum ProfilePath{
     divisionScreen = '/division',
     corpoScreen = '/corpo',
     errorScreen = '/error',
+    assesorScreen = '/asesor',
 
 }
 
@@ -27,7 +29,8 @@ export enum ScreenName{
     region='regional',
     territory='territorio',
     division = 'division',
-    corpo = 'corpo'
+    corpo = 'corpo',
+    assesor = 'asesor'
 }
 
 const routes:Array<RouteRecordRaw> =
@@ -35,7 +38,7 @@ const routes:Array<RouteRecordRaw> =
         {
             path: ProfilePath.selectorPath,
             name: ScreenName.selector,
-            component: ProfileSelector
+            redirect: ProfilePath.assesorScreen
         },
         {
             path: ProfilePath.corpoScreen,
@@ -66,6 +69,11 @@ const routes:Array<RouteRecordRaw> =
             path: ProfilePath.errorScreen,
             name: ScreenName.error,
             component: ErrorScreen
+        },
+        {
+            path: ProfilePath.assesorScreen,
+            name: ScreenName.assesor,
+            component: AssesorScreen
         },
         {
             path: '/:pathMatch(.*)*',
