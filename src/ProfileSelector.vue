@@ -15,7 +15,7 @@ let decryptedString: Ref<string | null> = ref<string | null>(null);
 
 onMounted(()=>{
   console.log("Profile mounted.");
-  router.push(ProfilePath.corpoScreen)
+  router.push(ProfilePath.assesorScreen)
 })
 
 </script>
