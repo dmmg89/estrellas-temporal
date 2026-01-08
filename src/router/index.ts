@@ -8,10 +8,12 @@ import ErrorScreen from "../views/ErrorScreen.vue";
 import RegionScreen from "../views/RegionScreen.vue";
 import PdvScreen from "../views/PdvScreen.vue";
 import AssesorScreen from "../views/AssesorScreen.vue";
+import EmployeeScreen from "../views/EmployeeScreen.vue";
 
 
 export enum ProfilePath{
     selectorPath = '/',
+    employee= '/employee',
     pdv = '/pdv',
     regionScreen = '/region',
     territorioScreen = '/territorio',
@@ -25,6 +27,7 @@ export enum ProfilePath{
 export enum ScreenName{
     error = 'error',
     selector = 'selector',
+    employee= 'employee',
     pdv = 'pdv',
     region='regional',
     territory='territorio',
@@ -65,6 +68,12 @@ const routes:Array<RouteRecordRaw> =
             name: ScreenName.pdv,
             component: PdvScreen
         },
+        {
+            path: ProfilePath.employee,
+            name: ScreenName.employee,
+            component: EmployeeScreen
+        },
+
         {
             path: ProfilePath.errorScreen,
             name: ScreenName.error,

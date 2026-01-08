@@ -55,7 +55,7 @@ onMounted(() => {
   // const currentYear = new Date().getFullYear();
   const currentYear = 2025;
 
-  for (let i = 0; i <= 2; i++) {
+  for (let i = 0; i <= 5; i++) {
     const w = currentWeek - i;
 
     if (w > 0) {

@@ -80,7 +80,8 @@ const handleClick = async (item: RankingItemNumeric) => {
     2: ProfilePath.territorioScreen,
     // 3: ProfilePath.plazaScreen,
     4: ProfilePath.regionScreen,
-    5: ProfilePath.pdv
+    5: ProfilePath.pdv,
+    6: ProfilePath.employee
   };
 
   const targetPath = routesMap[item.nivel];
