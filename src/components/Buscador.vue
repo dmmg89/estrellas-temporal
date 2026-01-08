@@ -29,7 +29,9 @@ async function onInput() {
 
 <template>
   <section id="buscador" :class="{ abierto: mostrar }">
-    <div class="lupa">P</div>
+    <div class="lupa">
+      <img src="../assets/icons/lupa.svg" alt="" />
+    </div>
     <div class="entrada">
       <input
         type="text"

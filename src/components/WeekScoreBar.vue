@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed } from "vue";
 
 const props = defineProps<{
   score: number;
@@ -34,7 +34,7 @@ const formattedScore = computed((): string => {
       <div class="track">
         <div class="fill" :style="{ width: fillPercentage }">
           <div class="marker-container">
-            <img class="star" src="../assets/icons/ic_small_star.svg">
+            <img class="star" src="../assets/icons/ic_small_star.svg" />
 
             <span class="score-value">{{ formattedScore }}</span>
           </div>
@@ -48,13 +48,13 @@ const formattedScore = computed((): string => {
 
 <style scoped>
 .week-score-bar {
-  width: 75%;
+  width: 95%;
   text-align: left;
-  margin: 30px auto;
+  margin: 10px auto 30px auto;
 }
 
 .label {
-  color: #3EC53E;
+  color: #3ec53e;
   font-weight: 700;
   font-size: 14px;
   margin-bottom: 10px;
@@ -75,7 +75,7 @@ const formattedScore = computed((): string => {
 .track {
   flex-grow: 1;
   height: 16px;
-  background-color: #E5E7EB;
+  background-color: #e5e7eb;
   border-radius: 10px;
   position: relative;
   margin-left: 10px;
@@ -83,7 +83,7 @@ const formattedScore = computed((): string => {
 
 .fill {
   height: 100%;
-  background-color: #3EC53E;
+  background-color: #3ec53e;
   border-radius: 10px;
   position: relative;
   transition: width 0.3s ease-in-out;
