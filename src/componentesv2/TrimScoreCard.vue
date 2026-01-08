@@ -158,7 +158,7 @@ const feedbackMessage = computed(() => {
   position: relative;
   width: calc(100vw - 62px);
   padding: 6px;
-  margin-top: 150px;
+  margin-top: 180px;
   padding: 0 30px;
 }
 
