@@ -38,7 +38,7 @@ const routes:Array<RouteRecordRaw> =
         {
             path: ProfilePath.selectorPath,
             name: ScreenName.selector,
-            redirect: ProfilePath.assesorScreen
+            component: ProfileSelector
         },
         {
             path: ProfilePath.corpoScreen,

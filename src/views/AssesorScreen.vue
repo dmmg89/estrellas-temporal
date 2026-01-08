@@ -12,6 +12,7 @@ import type {AtributeModel} from "../models/AtributeItemModel.ts";
 import LoadingLottie from "../components/LoadingLottie.vue";
 import ProgressBar from "../components/ProgressBar.vue";
 import TermometroCard from "../components/TermometroCard.vue";
+import AtributosCard from "../../srcv2/components/AtributosCard.vue";
 
 const store = useStateStore();
 const { isLoading, week, level, ceco } = storeToRefs(store);
@@ -67,11 +68,11 @@ watch(
           :current-week="week"
       />
 
-      <AtributosCard :atributos="atributesList" />
+        <ProgressBar label="Satisfacción del Cliente" :positive="75" :negative="20" />
 
-      <TermometroCard />
 
-      <ProgressBar label="Satisfacción del Cliente" :positive="75" :negative="20" />
+        <TermometroCard />
+
 
       </div>
 

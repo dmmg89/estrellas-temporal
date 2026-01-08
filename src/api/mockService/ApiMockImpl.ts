@@ -29,14 +29,11 @@ export const getComments = async (ceco:number, level:number, week:number, year:n
     }
 }
 
-export const getRanking = async (level:number, week: number, year:number, type:number = 1) : Promise<RankingModel> =>{
+export const getRanking = async (ceco:number) : Promise<RankingModel> =>{
     try{
-        const endpoint: string =   '/v1/ranking';
+        const endpoint: string =   '/v2/ranking';
         const params = {
-            nivel : level,
-            semana:week,
-            anio:year,
-            tipo:type
+            ceco:ceco
         }
         const apiResponse = await fetchData<RankingModel>(endpoint,params);
         if(apiResponse ){

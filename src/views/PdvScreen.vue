@@ -43,7 +43,7 @@ const loadData = async () => {
       await Promise.all([
         getScore(ceco.value, week.value, 2025),
         getHistory(ceco.value),
-        getRanking(5, week.value, 2025),
+        getRanking(ceco.value),
         getAtributes(ceco.value, week.value, 2025),
         getTermometer(ceco.value, week.value, 2025),
       ]);

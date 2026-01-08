@@ -25,6 +25,7 @@ import type { AtributeModel } from "../models/AtributeItemModel.ts";
 import AtributosCard from "../components/AtributosCard.vue";
 import TermometerCard from "../components/TermometerCard.vue";
 import LoadingLottie from "../components/LoadingLottie.vue";
+import TermometroCard from "../components/TermometroCard.vue";
 
 const store = useStateStore();
 const { isLoading, week, level, ceco } = storeToRefs(store);
@@ -43,7 +44,7 @@ const loadData = async () => {
       await Promise.all([
         getScore(ceco.value, week.value, 2025),
         getHistory(ceco.value),
-        getRanking(4, week.value, 2025),
+        getRanking(ceco.value),
         getAtributes(ceco.value, week.value, 2025),
         getTermometer(ceco.value, week.value, 2025),
       ]);

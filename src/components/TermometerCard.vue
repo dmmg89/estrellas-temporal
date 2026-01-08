@@ -133,7 +133,6 @@ const getPercentage = (score: number) => Math.round(score * 100);
   border-radius: 20px;
   padding: 1.5rem;
   max-width: 450px;
-  font-family: system-ui, -apple-system, sans-serif;
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
@@ -163,7 +162,8 @@ const getPercentage = (score: number) => Math.round(score * 100);
   font-weight: 700;
   font-size: 0.85rem;
   padding: 6px 12px;
-  border-radius: 12px 0 12px 0;
+  border-bottom-left-radius: 12px;
+  border-top-left-radius: 12px;
   box-shadow: 0 2px 5px rgba(0, 200, 83, 0.3);
 }
 

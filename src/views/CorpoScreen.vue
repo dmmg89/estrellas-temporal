@@ -35,7 +35,7 @@ const loadData = async () => {
     const [scoreRes, historyRes, rankingRes] = await Promise.all([
       getScore(0, week.value, 2025),
       getHistory(0),
-      getRanking(0, week.value, 2025),
+      getRanking(0),
     ]);
 
     scoreData.value = scoreRes;
