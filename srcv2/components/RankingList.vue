@@ -2,7 +2,6 @@
 import { computed, ref } from "vue";
 import router, { ProfilePath } from "../router";
 import type { RankingItemModel, RankingModel } from "../models/RankingModel.ts";
-// 1. Importar el Store
 import { useStateStore } from "../store/StateStore.ts";
 
 interface Props {
@@ -13,7 +12,6 @@ interface Props {
 
 const props = defineProps<Props>();
 
-// 2. Instanciar el Store
 const store = useStateStore();
 
 type RankingItemNumeric = Omit<RankingItemModel, "calificacion"> & {
@@ -53,10 +51,8 @@ const isTopRank = (rankValue: number) => rankValue <= 3;
 const handleClick = async (item: RankingItemNumeric) => {
   console.log("Navegando a item:", item);
 
-  // A. Activar Loading para que la siguiente pantalla nazca cargando
   store.setLoading(true);
 
-  // B. Actualizar el contexto en Pinia (Ceco y Nivel seleccionados)
   store.setCeco(item.ceco);
   store.setLevel(item.nivel);
 

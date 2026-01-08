@@ -1,15 +1,24 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+// No necesitamos importar ref porque el estado vendrá de fuera
 
+// Definimos el tipo (opcional, pero buena práctica)
 type SelectionOption = 'División' | 'Territorio';
 
-const currentSelection = ref<SelectionOption>('División');
+// 1. Recibimos el valor actual desde el padre
+const props = defineProps<{
+  modelValue: SelectionOption
+}>();
+
+// 2. Definimos el evento para avisar al padre del cambio
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: SelectionOption): void
+}>();
 
 const selectOption = (option: SelectionOption) => {
-  if (currentSelection.value === option) return;
+  if (props.modelValue === option) return;
 
-  currentSelection.value = option;
-  console.log(`Opción seleccionada: ${option}`);
+  // 3. En lugar de cambiar una variable local, emitimos el evento
+  emit('update:modelValue', option);
 };
 </script>
 
@@ -18,7 +27,7 @@ const selectOption = (option: SelectionOption) => {
     <button
         @click="selectOption('División')"
         class="toggle-btn"
-        :class="{ 'active': currentSelection === 'División' }"
+        :class="{ 'active': modelValue === 'División' }"
     >
       División
     </button>
@@ -26,7 +35,7 @@ const selectOption = (option: SelectionOption) => {
     <button
         @click="selectOption('Territorio')"
         class="toggle-btn"
-        :class="{ 'active': currentSelection === 'Territorio' }"
+        :class="{ 'active': modelValue === 'Territorio' }"
     >
       Territorio
     </button>
@@ -34,13 +43,13 @@ const selectOption = (option: SelectionOption) => {
 </template>
 
 <style scoped>
+/* Tus estilos se mantienen igual */
 .toggle-container {
   display: flex;
   justify-content: center;
   gap: 12px;
   padding: 10px;
 }
-
 .toggle-btn {
   background-color: #f0f2f5;
   color: #a0a5b5;
@@ -54,13 +63,11 @@ const selectOption = (option: SelectionOption) => {
   transition: all 0.3s ease;
   outline: none;
 }
-
 .toggle-btn.active {
   background-color: #e11d2b;
   color: white;
   box-shadow: 0 4px 10px rgba(225, 29, 43, 0.3);
 }
-
 .toggle-btn:not(.active):hover {
   background-color: #e4e6ea;
 }

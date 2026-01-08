@@ -10,7 +10,7 @@ import type { ScoreModel } from "../models/ScoreModel.ts";
 import { useStateStore } from "../store/StateStore.ts";
 import { storeToRefs } from "pinia";
 import {
-  getHistory,
+  getHistory, getLevelRanking,
   getRanking,
   getScore,
 } from "../api/mockService/ApiMockImpl.ts";
@@ -27,20 +27,24 @@ const { isLoading, week, level, ceco } = storeToRefs(store);
 const scoreData = ref<ScoreModel | null>(null);
 const historyList = ref<HistoryModel>();
 const rankingList = ref<RankingModel | null>(null);
+const rankingTList = ref<RankingModel | null>(null);
+const viewMode = ref<'División' | 'Territorio'>('División');
 
 const loadData = async () => {
   try {
     store.setLoading(true);
 
-    const [scoreRes, historyRes, rankingRes] = await Promise.all([
+    const [scoreRes, historyRes, rankingRes,rankingTRes] = await Promise.all([
       getScore(0, week.value, 2025),
       getHistory(0),
       getRanking(0),
+      getLevelRanking(1, week.value, 2025)
     ]);
 
     scoreData.value = scoreRes;
     historyList.value = historyRes;
     rankingList.value = rankingRes;
+    rankingTList.value = rankingTRes
   } catch (error) {
     console.error("Error cargando datos:", error);
   } finally {
@@ -74,8 +78,25 @@ watch(
         <WeekScoreBar :score="scoreData.califSemana" />
 
         <HistoryChart title="Tendencia" :data="historyList" />
-        <!--        <CorpoSelector/>-->
-        <RankingList title="Divisiones" :week="week" :items="rankingList" />
+        <div>
+          <CorpoSelector v-model="viewMode" />
+
+          <div class="content-area">
+            <RankingList
+                v-if="viewMode === 'División'"
+                title="Divisiones"
+                :week="week"
+                :items="rankingList"
+            />
+
+            <RankingList
+                v-else
+                title="Territorio"
+                :week="week"
+                :items="rankingTList"
+            />
+          </div>
+        </div>
       </div>
 
       <Footer />

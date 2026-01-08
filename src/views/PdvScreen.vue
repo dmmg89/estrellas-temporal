@@ -35,6 +35,7 @@ const historyList = ref<HistoryModel>();
 const rankingList = ref<RankingModel | null>(null);
 const atributesList = ref<AtributeModel | null>(null);
 const termometerList = ref<AtributeModel | null>(null);
+// const verbList = ref<
 
 const loadData = async () => {
   try {

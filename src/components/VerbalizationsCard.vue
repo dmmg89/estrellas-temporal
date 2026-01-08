@@ -8,18 +8,18 @@ interface VerbalizationItem {
 }
 
 const props = defineProps<{
-  verbalizaciones: VerbalizationItem[];
+  verbalizaciones: string[];
 }>();
 
 const currentFilter = ref<1 | 2>(1);
 
 const totalCount = computed(() => props.verbalizaciones.length);
-const positiveCount = computed(() => props.verbalizaciones.filter(v => v.type === 1).length);
-const negativeCount = computed(() => props.verbalizaciones.filter(v => v.type === 2).length);
-
-const filteredList = computed(() => {
-  return props.verbalizaciones.filter(v => v.type === currentFilter.value);
-});
+// const positiveCount = computed(() => props.verbalizaciones.filter(v => v.type === 1).length);
+// const negativeCount = computed(() => props.verbalizaciones.filter(v => v.type === 2).length);
+//
+// const filteredList = computed(() => {
+//   return props.verbalizaciones.filter(v => v.type === currentFilter.value);
+// });
 
 const setFilter = (type: 1 | 2) => {
   currentFilter.value = type;
