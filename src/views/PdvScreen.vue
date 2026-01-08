@@ -122,7 +122,7 @@ watch(
           </template>
         </div>
 
-        <VerbalizationsCard :items="comments" :total-count="140" />
+        <VerbalizationsCard :items="comments"  />
         <!--      <RankingList title="Puntos de Venta" :week="week" :items="rankingList" />-->
       </div>
 

@@ -1,149 +1,178 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
-import TrimScoreCard from "../components/TrimScoreCard.vue";
-import WeekScoreBar from "../components/WeekScoreBar.vue";
-import RankingList from "../components/RankingList.vue";
-import CorpoSelector from "../components/CorpoSelector.vue";
-import Footer from "../components/Footer.vue";
-import type { RankingItemModel, RankingModel } from "../models/RankingModel.ts";
-import type { ScoreModel } from "../models/ScoreModel.ts";
-import { useStateStore } from "../store/StateStore.ts";
-import { storeToRefs } from "pinia";
-import {
-  getAtributes,
-  getHistory,
-  getRanking,
-  getScore,
-  getTeam,
-  getTermometer,
-} from "../api/mockService/ApiMockImpl.ts";
-import type {
-  HistoryModel,
-  HistoryWeekModel,
-} from "../models/HistoryWeekModel.ts";
-import HistoryChart from "../components/HistoryChart.vue";
-import type { AtributeModel } from "../models/AtributeItemModel.ts";
-// import AtributosCard from "../components/AtributosCard.vue";
-import ProgressBar from "../components/ProgressBar.vue";
-import TermometroCard from "../components/TermometroCard.vue";
-import LoadingLottie from "../components/LoadingLottie.vue";
-import AsesoresCard from "../components/AsesoresCard.vue";
-import type { EmpleadoData } from "../models/EmpleadoData.ts";
+import { computed, ref } from 'vue';
 
-const store = useStateStore();
-const { isLoading, week, level, ceco } = storeToRefs(store);
+interface Props {
+  /** La lista de comentarios/cadenas de texto */
+  items: string[];
+  /** El número total a mostrar en el badge (opcional). Si no se pasa, usa el largo de items */
+  totalCount?: number;
+}
 
-const scoreData = ref<ScoreModel | null>(null);
-const historyList = ref<HistoryModel>();
-const rankingList = ref<RankingModel | null>(null);
-const atributesList = ref<AtributeModel | null>(null);
-const termometerList = ref<AtributeModel | null>(null);
-const teamList = ref<EmpleadoData[] | null>(null);
+const props = defineProps<Props>();
+const emit = defineEmits(['clickMore']);
 
-// const verbList = ref<
+const INITIAL_LIMIT = 5;
+const isExpanded = ref(false);
 
-const loadData = async () => {
-  try {
-    store.setLoading(true);
+const visibleItems = computed(() => {
+  if (isExpanded.value) return props.items;
+  return props.items.slice(0, INITIAL_LIMIT);
+});
 
-    const [
-      scoreRes,
-      historyRes,
-      rankingRes,
-      atributeRes,
-      termometerRes,
-      teamRes,
-    ] = await Promise.all([
-      getScore(ceco.value, week.value, 2025),
-      getHistory(ceco.value),
-      getRanking(ceco.value),
-      getAtributes(ceco.value, week.value, 2025),
-      getTermometer(ceco.value, week.value, 2025),
-      getTeam(ceco.value, week.value),
-    ]);
+const displayTotal = computed(() => props.totalCount ?? props.items.length);
 
-    console.log("Respuesta equipo" + JSON.stringify(termometerRes, null, 2));
+const handleViewMore = () => {
 
-    scoreData.value = scoreRes;
-    historyList.value = historyRes;
-    rankingList.value = rankingRes;
-    atributesList.value = atributeRes;
-    termometerList.value = termometerRes;
-    teamList.value = teamRes;
-  } catch (error) {
-    console.error("Error cargando datos:", error);
-  } finally {
-    store.setLoading(false);
-  }
+  emit('clickMore');
 };
-
-watch(
-  [week, level, ceco],
-  () => {
-    loadData();
-  },
-  { immediate: true }
-);
 </script>
 
 <template>
-  <div class="page-container">
-    <div v-if="isLoading" class="loading-state">
-      <LoadingLottie />
-    </div>
-
-    <div v-else-if="!isLoading && scoreData">
-      <div class="body-content">
-        <TrimScoreCard
-          :trim-score="scoreData.califTrimestre"
-          zone="PDV"
-          :current-week="week"
-        />
-
-        <WeekScoreBar :score="scoreData.califSemana" />
-
-        <HistoryChart title="Tendencia" :data="historyList" />
-
-        <ProgressBar v-if="atributesList" :items="atributesList" />
-        <!-- <AtributosCard :atributos="atributesList" /> -->
-
-        <TermometroCard v-if="atributesList" :items="atributesList" />
-
-        <!--        <AsesoresCard  :item="datosEmpleado"/>-->
-
-        <div v-if="teamList && teamList.length > 0" class="team-list-container">
-          <template v-for="asesor in teamList" :key="asesor.idEmpleado">
-            <AsesoresCard v-if="asesor.metricas_semana" :item="asesor" />
-          </template>
-        </div>
-
-        <!--      <RankingList title="Puntos de Venta" :week="week" :items="rankingList" />-->
+  <div class="card-container">
+    <div class="card-header">
+      <div class="title-section">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon">
+          <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="#F4B942"/>
+          <circle cx="8" cy="10" r="1.5" fill="white"/>
+          <circle cx="12" cy="10" r="1.5" fill="white"/>
+          <circle cx="16" cy="10" r="1.5" fill="white"/>
+        </svg>
+        <h2 class="title">Verbalizaciones</h2>
       </div>
 
-      <Footer />
+      <div class="badge">
+        Total {{ displayTotal }}
+      </div>
     </div>
 
-    <div v-else class="error-state">
-      <p>No se pudo cargar la información.</p>
+    <div class="list-container">
+      <div
+          v-for="(item, index) in visibleItems"
+          :key="index"
+          class="list-item"
+      >
+        <div class="item-content">
+          <span class="item-number">{{ index + 1 }}.</span>
+          <p class="item-text">"{{ item }}"</p>
+        </div>
+        <div v-if="index < visibleItems.length - 1" class="separator"></div>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <button class="btn-ver-mas" @click="handleViewMore">
+        Ver más
+      </button>
     </div>
   </div>
 </template>
 
 <style scoped>
-.body-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100vw;
-  padding: 20px;
-  box-sizing: border-box;
+/* Contenedor Principal */
+.card-container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  padding: 24px;
+  width: 100%;
+  max-width: 500px; /* Ancho máximo sugerido */
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: #333;
 }
 
-.team-list-container {
+/* Header */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.title-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  color: #333;
+}
+
+.badge {
+  background-color: #F4B942;
+  color: white;
+  padding: 4px 12px;
+  border-bottom-left-radius: 20px;
+  border-top-right-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Lista */
+.list-container {
   display: flex;
   flex-direction: column;
+  gap: 0;
+}
+
+.list-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-content {
+  display: flex;
+  gap: 8px;
+  padding: 12px 0;
+}
+
+.item-number {
+  font-weight: 600;
+  color: #666;
+  min-width: 20px; /* Asegura alineación si hay >9 items */
+}
+
+.item-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #555;
+  font-weight: 400;
+}
+
+.separator {
+  height: 1px;
+  background-color: #eee;
   width: 100%;
-  gap: 16px;
-  margin-top: 20px;
+}
+
+.card-footer {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-ver-mas {
+  background-color: #E31C1C;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 32px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-ver-mas:hover {
+  background-color: #c41515;
 }
 </style>
