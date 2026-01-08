@@ -112,17 +112,23 @@ const data = computed<AttributeData[]>(() => {
 
 <style scoped>
 .attribute-container {
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  max-width: 450px;
+  
+  font-family: 'Poppins', sans-serif;
   color: #444;
-  padding: 20px;
+  padding: 25px;
+
+  
+ /* Centra horizontalmente */
+  align-items: center;     /* Centra verticalmente */
+  text-align: center;      /* Asegura que el texto interno también se centre */
+ 
 }
 
 .header {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .icon-gear {
@@ -140,7 +146,7 @@ const data = computed<AttributeData[]>(() => {
 
 .description {
   font-size: 15px;
-  color: #666;
+  color:  #666;
   margin-bottom: 25px;
   line-height: 1.2;
 }
@@ -159,7 +165,7 @@ const data = computed<AttributeData[]>(() => {
 
 .attribute-label {
   font-weight: 600;
-  
+  text-align: left;
   font-size: 16px;
   color: #333;
 }
@@ -179,7 +185,7 @@ const data = computed<AttributeData[]>(() => {
   justify-content: center;
   color: white;
   font-weight: bold;
-  font-size: 13px;
+  font-size: 10px;
   height: 100%;
   position: relative; /* Necesario para que z-index funcione */
   min-width: 0; /* Permite que las barras se reduzcan */
@@ -187,18 +193,18 @@ const data = computed<AttributeData[]>(() => {
 }
 
 .green {
-  background-color: #76cb43;
-  border-radius: 20px 0 0 20px;
+  background-color:rgba(117, 203, 67, 0.99);
+  border-radius: 20px 10px 10px 20px ;
   z-index: 1; /* Queda atrás */
 }
 
 .red {
   background-color: #e33127;
-  border-radius: 20px; /* Forma de píldora completa */
+  border-radius: 20px 20px 20px 20px ; /* Forma de píldora completa */
   z-index: 2; /* Queda adelante */
   
   /* --- ESTO MUEVE LA BARRA HACIA LA IZQUIERDA --- */
-  margin-left: -15px; 
+  margin-left: -10px; 
   /* Puedes ajustar este valor (ej: -10px, -20px) según qué tanto 
      quieras que se encime sobre la verde */
 }

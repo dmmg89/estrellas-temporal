@@ -22,8 +22,9 @@ import type {
 } from "../models/HistoryWeekModel.ts";
 import HistoryChart from "../components/HistoryChart.vue";
 import type { AtributeModel } from "../models/AtributeItemModel.ts";
-import AtributosCard from "../components/AtributosCard.vue";
-import TermometerCard from "../components/TermometerCard.vue";
+// import AtributosCard from "../components/AtributosCard.vue";
+import ProgressBar from "../components/ProgressBar.vue";
+import TermometroCard from "../components/TermometroCard.vue";
 import LoadingLottie from "../components/LoadingLottie.vue";
 import AsesoresCard from "../components/AsesoresCard.vue";
 
@@ -89,12 +90,11 @@ watch(
 
         <HistoryChart title="Tendencia" :data="historyList" />
 
-        <AtributosCard :atributos="atributesList" />
+        <ProgressBar v-if="atributesList" :items="atributesList" />
+        <!-- <AtributosCard :atributos="atributesList" /> -->
 
-        <TermometerCard
-          v-if="termometerList.length > 0"
-          :items="termometerList"
-        />
+        <TermometroCard v-if="atributesList" :items="atributesList" />
+
 
         <AsesoresCard />
 

@@ -21,7 +21,8 @@ import type {
 } from "../models/HistoryWeekModel.ts";
 import HistoryChart from "../components/HistoryChart.vue";
 import type { AtributeModel } from "../models/AtributeItemModel.ts";
-import AtributosCard from "../components/AtributosCard.vue";
+// import AtributosCard from "../components/AtributosCard.vue";
+import ProgressBar from "../components/ProgressBar.vue";
 import LoadingLottie from "../components/LoadingLottie.vue";
 
 const store = useStateStore();
@@ -81,7 +82,8 @@ watch(
 
         <HistoryChart title="Tendencia" :data="historyList" />
 
-        <AtributosCard :atributos="atributesList" />
+        < <ProgressBar v-if="atributesList" :items="atributesList" />
+        <!-- <AtributosCard :atributos="atributesList" /> -->
 
         <RankingList title="Regiones" :week="week" :items="rankingList" />
       </div>

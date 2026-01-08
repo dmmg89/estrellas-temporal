@@ -22,8 +22,9 @@ import type {
 } from "../models/HistoryWeekModel.ts";
 import HistoryChart from "../components/HistoryChart.vue";
 import type { AtributeModel } from "../models/AtributeItemModel.ts";
-import AtributosCard from "../components/AtributosCard.vue";
-import TermometerCard from "../components/TermometerCard.vue";
+// import AtributosCard from "../components/AtributosCard.vue";
+import ProgressBar from "../components/ProgressBar.vue";
+// import TermometerCard from "../components/TermometerCard.vue";
 import LoadingLottie from "../components/LoadingLottie.vue";
 import TermometroCard from "../components/TermometroCard.vue";
 
@@ -88,12 +89,12 @@ watch(
 
         <HistoryChart title="Tendencia" :data="historyList" />
 
-        <AtributosCard :atributos="atributesList" />
+        <ProgressBar v-if="atributesList" :items="atributesList" />
+        <!-- <AtributosCard :atributos="atributesList" /> -->
 
-        <TermometerCard
-          v-if="termometerList.length > 0"
-          :items="termometerList"
-        />
+
+        <TermometroCard v-if="atributesList" :items="atributesList" />
+
 
         <RankingList
           title="Puntos de Venta"
@@ -116,8 +117,14 @@ watch(
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100vw;
-  padding: 20px;
+  width: 100%;
+  gap: 20px;
+  padding: 20px 10px;
   box-sizing: border-box;
+}
+
+.body-content > * {
+  width: 100%;
+  max-width: 380px;
 }
 </style>

@@ -163,7 +163,8 @@ const metrics = computed<MetricData[]>(() => {
   background-color: #F8F9FB;
   padding: 40px;
   border-radius: 24px;
-  max-width: 100px;
+  width: 100%;
+  max-width: 450px;
   margin: 0 auto;
   font-family: sans-serif;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
