@@ -25,6 +25,7 @@ import type { AtributeModel } from "../models/AtributeItemModel.ts";
 import AtributosCard from "../components/AtributosCard.vue";
 import TermometerCard from "../components/TermometerCard.vue";
 import LoadingLottie from "../components/LoadingLottie.vue";
+import AsesoresCard from "../components/AsesoresCard.vue";
 
 const store = useStateStore();
 const { isLoading, week, level, ceco } = storeToRefs(store);
@@ -93,6 +94,8 @@ watch(
           v-if="termometerList.length > 0"
           :items="termometerList"
         />
+
+        <AsesoresCard />
 
         <!--      <RankingList title="Puntos de Venta" :week="week" :items="rankingList" />-->
       </div>
