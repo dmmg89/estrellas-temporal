@@ -14,7 +14,7 @@ onMounted(async () => {
 
 <template>
   <section id="equipo">
-    <div v-show="" class="equipo-info">
+    <div class="equipo-info">
       <div class="info-foto">
         <div class="cont-foto verde">
           <img
