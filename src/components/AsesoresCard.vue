@@ -1,12 +1,29 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
+
+const fotoEmp = ref("");
+
+onMounted(async () => {
+  const url =
+    "https://www.productividadzeus.com/concursos/fotos/colaboradores/?code=1139800";
+  const res = await fetch(url);
+  const data = await res.json();
+  fotoEmp.value = data.file_base64;
+});
+</script>
 
 <template>
   <section id="equipo">
     <div class="equipo-info">
       <div class="info-foto">
         <div class="cont-foto verde">
-          <!-- <img v-if="!fotoEmp" :src="iconos.imgUser" alt="Icono Default" />
-          <img v-if="fotoEmp" :src="fotoEmp" alt="Foto Empleado" /> -->
+          <img
+            v-if="fotoEmp"
+            :src="'data:image/jpeg;base64,' + fotoEmp"
+            alt="Foto Empleado"
+          />
+
+          <img v-else src="../assets/icons/user.svg" alt="Sin foto" />
         </div>
       </div>
       <div class="info-equipo">
