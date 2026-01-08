@@ -68,10 +68,10 @@ watch(
           :current-week="week"
       />
 
-        <ProgressBar label="Satisfacción del Cliente" :positive="75" :negative="20" />
+        <ProgressBar v-if="atributesList" :items="atributesList" />
 
 
-        <TermometroCard />
+        <TermometroCard v-if="atributesList" :items="atributesList" />
 
 
       </div>
