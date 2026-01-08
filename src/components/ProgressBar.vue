@@ -19,14 +19,14 @@
         <div class="progress-container">
           <div 
             class="bar green" 
-            :style="{ flex: attr.positive }"
+            :style="{ width: `${attr.positive}%` }"
           >
             {{ attr.positive }}%
           </div>
           <div 
-            class="bar red" 
-            :style="{ flex: attr.opportunity }"
-          >
+              class="bar red" 
+              :style="{ width: `${attr.opportunity}%` }"
+            >
             {{ attr.opportunity }}%
           </div>
         </div>
@@ -47,20 +47,68 @@
 </template>
 
 <script setup lang="ts">
-interface AttributeData {
-  label: string;
-  positive: number;
-  opportunity: number;
+import { computed } from 'vue'
+import type { AtributeModel } from '../models/AtributeItemModel'
+
+// =====================
+// PROPS
+// =====================
+const props = defineProps<{
+  items: AtributeModel
+}>()
+
+// =====================
+// CONFIGURACIÓN DE ATRIBUTOS
+// =====================
+const ATTRIBUTE_CONFIG: Record<number, { label: string }> = {
+  1: { label: 'Actitud de Servicio' },
+  2: { label: 'Tiempo de información' },
+  3: { label: 'Calidad de la información' },
+  4: { label: 'Conocimiento del asesor' },
+  5: { label: 'Imagen del asesor' }
 }
 
-const data: AttributeData[] = [
-  { label: 'Actitud de Servicio', positive: 75, opportunity: 25 },
-  { label: 'Tiempo de información', positive: 70, opportunity: 30 },
-  { label: 'Calidad de la información', positive: 75, opportunity: 25 },
-  { label: 'Conocimiento del asesor', positive: 75, opportunity: 25 },
-  { label: 'Imagen del asesor', positive: 53, opportunity: 47 },
-];
+// =====================
+// NORMALIZADOR (reutilizado)
+// =====================
+const normalizePercentage = (value: number): number => {
+  if (value > 1) {
+    return Math.min(Math.round(value), 100)
+  }
+  return Math.min(Math.round(value * 100), 100)
+}
+
+// =====================
+// MODELO INTERNO DEL COMPONENTE
+// =====================
+interface AttributeData {
+  label: string
+  positive: number
+  opportunity: number
+}
+
+// =====================
+// DATA FINAL PARA EL TEMPLATE
+// =====================
+const data = computed<AttributeData[]>(() => {
+  if (!props.items || props.items.length === 0) return []
+
+  return (
+    props.items
+      .filter(item => ATTRIBUTE_CONFIG[item.idAtributo])
+      .sort((a, b) => a.idAtributo - b.idAtributo)
+      .map(item => {
+        const value = normalizePercentage(item.valorAtributo)
+        return {
+          label: ATTRIBUTE_CONFIG[item.idAtributo].label,
+          positive: value,
+          opportunity: 100 - value
+        }
+      })
+  )
+})
 </script>
+
 
 <style scoped>
 .attribute-container {
@@ -134,6 +182,8 @@ const data: AttributeData[] = [
   font-size: 13px;
   height: 100%;
   position: relative; /* Necesario para que z-index funcione */
+  min-width: 0; /* Permite que las barras se reduzcan */
+  flex-shrink: 0; /* Evita que se compriman */
 }
 
 .green {
