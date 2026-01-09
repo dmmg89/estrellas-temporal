@@ -32,10 +32,24 @@ const nombreFormateado = computed(() => {
 
 
 const posicionFormateada = computed(() => {
-  if (props.item.idEmpleado === 0) return props.item.nombre;
+  // Si es vacante → solo el nombre de la posición
+  if (props.item.idEmpleado === 0) {
+    return props.item.nombre
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ") ?? "";
+  }
 
- 
+  // Si es empleado → Nombre + Posición
+  const posicion = props.item.posicionNombre ?? "";
+  return `${posicion}`
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 });
+
 
 
 const formatNumber = (num: number) => {
@@ -87,7 +101,7 @@ onMounted(async () => {
           <span>{{ nombreFormateado }} ({{ item.idEmpleado }})</span>
         </div>
         <div class="perfil-sub">
-          {{ item.posicionNombre }}
+          {{ posicionFormateada }}
         </div>
       </div>
 
