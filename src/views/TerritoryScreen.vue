@@ -82,7 +82,7 @@ watch(
 
         <HistoryChart title="Tendencia" :data="historyList" />
 
-        < <ProgressBar v-if="atributesList" :items="atributesList" />
+        <ProgressBar v-if="atributesList" :items="atributesList" />
         <!-- <AtributosCard :atributos="atributesList" /> -->
 
         <RankingList title="Regiones" :week="week" :items="rankingList" />
