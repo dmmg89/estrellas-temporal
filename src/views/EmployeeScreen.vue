@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import {onActivated, onMounted, ref, watch} from "vue";
 import TrimScoreCard from "../components/TrimScoreCard.vue";
 import WeekScoreBar from "../components/WeekScoreBar.vue";
 import RankingList from "../components/RankingList.vue";
@@ -55,7 +55,14 @@ const atributesList = ref<AtributeModel>([
   { idAtributo: 4, nombreAtributo: "Conocimiento", valorAtributo: 4.2 },
 ]);
 
+onActivated(() => {
+  loadData();
+});
+
 const loadData = async () => {
+
+  console.log("Datos: " + ceco.value + '  ' + week.value + ' ' + level.value);
+
   try {
     store.setLoading(true);
 
