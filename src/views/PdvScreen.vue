@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch, computed } from "vue";
 import TrimScoreCard from "../components/TrimScoreCard.vue";
 import WeekScoreBar from "../components/WeekScoreBar.vue";
 import RankingList from "../components/RankingList.vue";
@@ -84,6 +84,10 @@ const loadData = async () => {
   }
 };
 
+const teamFiltrado = computed(() => {
+  return teamList.value?.filter((a) => a.metricas_semana) ?? [];
+});
+
 watch(
   [week, level, ceco],
   () => {
@@ -120,16 +124,23 @@ watch(
 
         <div class="con-cola">
           <div class="ocultar" @click="mostrarTeam = !mostrarTeam">
-            <div class="tit-col">Colaboradores</div>
-            <span>{{ mostrarTeam ? "Ocultar" : "Mostrar" }}</span>
+            <div class="tit-col">
+              <span class="tit">Mi Equipo</span>
+              <!-- <span class="sub">Aqui Alan</span> -->
+            </div>
+            <span class="btn"
+              >{{ teamFiltrado.length }}
+              <span v-if="teamFiltrado.length > 1"> Personas</span>
+              <span v-else> Persona</span></span
+            >
           </div>
 
           <transition name="slide">
             <div
-              v-if="mostrarTeam && teamList && teamList.length > 0"
+              v-if="mostrarTeam && teamFiltrado.length > 0"
               class="team-list-container"
             >
-              <template v-for="asesor in teamList" :key="asesor.idEmpleado">
+              <template v-for="asesor in teamFiltrado" :key="asesor.idEmpleado">
                 <AsesoresCard v-if="asesor.metricas_semana" :item="asesor" />
               </template>
             </div>
@@ -179,9 +190,9 @@ watch(
     align-items: center;
     justify-content: space-between;
 
-    span {
+    span.btn {
       color: #fff;
-      background: #6ac63a;
+      background: #f4b940;
       padding: 5px 15px;
       display: flex;
       align-items: center;
@@ -190,12 +201,27 @@ watch(
       border-radius: 5px;
       cursor: pointer;
       font-size: 12px;
+
+      span {
+        margin-left: 5px;
+      }
     }
 
     .tit-col {
-      font-size: 16px;
-      font-weight: 600;
       color: #333;
+      display: flex;
+      align-items: start;
+      flex-direction: column;
+
+      .tit {
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .sub {
+        font-size: 11px;
+        font-weight: 300;
+      }
     }
   }
 }
