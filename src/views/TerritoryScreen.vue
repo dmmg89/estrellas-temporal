@@ -24,6 +24,7 @@ import type { AtributeModel } from "../models/AtributeItemModel.ts";
 // import AtributosCard from "../components/AtributosCard.vue";
 import ProgressBar from "../components/ProgressBar.vue";
 import LoadingLottie from "../components/LoadingLottie.vue";
+import SchemaCard from "../components/SchemaCard.vue";
 
 const store = useStateStore();
 const { isLoading, week, level, ceco } = storeToRefs(store);
@@ -84,6 +85,8 @@ watch(
 
         <ProgressBar v-if="atributesList" :items="atributesList" />
         <!-- <AtributosCard :atributos="atributesList" /> -->
+
+        <SchemaCard />
 
         <RankingList title="Regiones" :week="week" :items="rankingList" />
       </div>

@@ -30,6 +30,14 @@ const nombreFormateado = computed(() => {
     .join(" ");
 });
 
+
+const posicionFormateada = computed(() => {
+  if (props.item.idEmpleado === 0) return props.item.nombre;
+
+ 
+});
+
+
 const formatNumber = (num: number) => {
   return num ? num.toFixed(2).replace(".", ",") : "0,00";
 };
