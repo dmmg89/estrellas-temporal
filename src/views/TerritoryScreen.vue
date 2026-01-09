@@ -14,6 +14,7 @@ import {
   getHistory,
   getRanking,
   getScore,
+  getTeam,
 } from "../api/mockService/ApiMockImpl.ts";
 import type {
   HistoryModel,
@@ -26,6 +27,7 @@ import ProgressBar from "../components/ProgressBar.vue";
 import LoadingLottie from "../components/LoadingLottie.vue";
 import SchemaCard from "../components/SchemaCard.vue";
 import {useRoute, useRouter} from "vue-router";
+import type { EmpleadoData } from "../models/EmpleadoData.ts";
 
 
 const route = useRoute();
@@ -37,6 +39,7 @@ const scoreData = ref<ScoreModel | null>(null);
 const historyList = ref<HistoryModel>();
 const rankingList = ref<RankingModel | null>(null);
 const atributesList = ref<AtributeModel | null>(null);
+const teamList = ref<EmpleadoData[] | null>(null);
 
 const loadData = async () => {
   console.log("Datos: " + ceco.value + '  ' + week.value + ' ' + level.value);
@@ -45,17 +48,19 @@ const loadData = async () => {
   try {
     store.setLoading(true);
 
-    const [scoreRes, historyRes, rankingRes, atributeRes] = await Promise.all([
+    const [scoreRes, historyRes, rankingRes, atributeRes, teamRes] = await Promise.all([
       getScore(ceco.value, week.value, 2025),
       getHistory(ceco.value),
       getRanking(ceco.value),
       getAtributes(ceco.value, week.value, 2025),
+      getTeam(ceco.value, week.value),
     ]);
 
     scoreData.value = scoreRes;
     historyList.value = historyRes;
     rankingList.value = rankingRes;
     atributesList.value = atributeRes;
+    teamList.value = teamRes;
   } catch (error) {
     console.error("Error cargando datos:", error);
   } finally {
@@ -86,7 +91,7 @@ watch(
       <div class="body-content">
         <TrimScoreCard
           :trim-score="scoreData.califTrimestre"
-          zone="Territorio"
+          :zone="scoreData.nombre"
           :current-week="week"
         />
 
@@ -97,7 +102,7 @@ watch(
         <ProgressBar v-if="atributesList" :items="atributesList" />
         <!-- <AtributosCard :atributos="atributesList" /> -->
 
-        <SchemaCard />
+        <SchemaCard v-if="teamList" :employees="teamList" :navegate= false />
 
         <RankingList title="Regiones" :week="week" :items="rankingList" />
       </div>
