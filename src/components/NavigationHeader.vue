@@ -6,6 +6,7 @@ import CircularIconButton from "./items/CircularIconButton.vue";
 import { useRouter, type Router } from 'vue-router';
 import {Str} from "../utils/AppConstants.ts";
 import {ProfilePath} from "../router";
+import {useStateStore} from "../store/StateStore.ts";
 
 
 interface WebkitMessageHandler {
@@ -33,6 +34,8 @@ interface RootGetters {
   initialScreen: string;
 }
 
+const store = useStateStore();
+
 
 const router: Router = useRouter();
 
@@ -45,6 +48,7 @@ const goBack = (): void => {
   if (router.currentRoute.value.path === ProfilePath.corpoScreen) {
     backInitNav();
   } else {
+    store.drillUp();
     router.go(-1);
   }
 };
