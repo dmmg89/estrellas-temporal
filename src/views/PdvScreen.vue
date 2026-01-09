@@ -42,6 +42,8 @@ const atributesList = ref<AtributeModel | null>(null);
 const termometerList = ref<AtributeModel | null>(null);
 const teamList = ref<EmpleadoData[] | null>(null);
 const comments = ref<string[] | null>(null);
+
+const mostrarTeam = ref(false);
 // const verbList = ref<
 
 const loadData = async () => {
@@ -116,13 +118,25 @@ watch(
 
         <!--        <AsesoresCard  :item="datosEmpleado"/>-->
 
-        <div v-if="teamList && teamList.length > 0" class="team-list-container">
-          <template v-for="asesor in teamList" :key="asesor.idEmpleado">
-            <AsesoresCard v-if="asesor.metricas_semana" :item="asesor" />
-          </template>
+        <div class="con-cola">
+          <div class="ocultar" @click="mostrarTeam = !mostrarTeam">
+            <div class="tit-col">Colaboradores</div>
+            <span>{{ mostrarTeam ? "Ocultar" : "Mostrar" }}</span>
+          </div>
+
+          <transition name="slide">
+            <div
+              v-if="mostrarTeam && teamList && teamList.length > 0"
+              class="team-list-container"
+            >
+              <template v-for="asesor in teamList" :key="asesor.idEmpleado">
+                <AsesoresCard v-if="asesor.metricas_semana" :item="asesor" />
+              </template>
+            </div>
+          </transition>
         </div>
 
-        <VerbalizationsCard :items="comments"  />
+        <VerbalizationsCard :items="comments" />
         <!--      <RankingList title="Puntos de Venta" :week="week" :items="rankingList" />-->
       </div>
 
@@ -151,5 +165,56 @@ watch(
   width: 100%;
   gap: 16px;
   margin-top: 20px;
+}
+
+.con-cola {
+  background-color: #f6f7f9;
+  width: 100vw;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .ocultar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    span {
+      color: #fff;
+      background: #6ac63a;
+      padding: 5px 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: max-content;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .tit-col {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+    }
+  }
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  opacity: 0;
+  max-height: 0;
+}
+
+.slide-enter-to,
+.slide-leave-from {
+  opacity: 1;
+  max-height: 500px;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 </style>

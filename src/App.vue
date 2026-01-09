@@ -34,8 +34,8 @@ body {
 
 <style scoped>
 .sub-header-wrapper {
-  background-color: #f6f7f9;
-  box-shadow: 0px 3px 6px #00000029;
+  background-color: #f6f7f9 !important;
+  box-shadow: 0px 3px 6px #00000029 !important;
   position: fixed;
   top: 63px;
   left: 0;
@@ -43,7 +43,6 @@ body {
   background-color: #f5f5f5;
   z-index: 990;
   padding: 10px 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
   display: flex;
   justify-content: center;

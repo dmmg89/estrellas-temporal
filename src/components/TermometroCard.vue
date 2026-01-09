@@ -166,7 +166,7 @@ const metrics = computed<MetricData[]>(() => {
           <span class="limit-label end">100%</span>
 
           <div class="meta-marker-group">
-            <span class="meta-label-top">80%</span>
+            <span class="meta-label-top" hidden>80%</span>
             <div class="meta-line"></div>
           </div>
 
@@ -358,8 +358,10 @@ const metrics = computed<MetricData[]>(() => {
 
 .meta-line {
   width: 2px;
-  height: 20px;
-  background-color: #d1d5db;
+  height: 80px;
+  border-left: 1.5px dashed #69c248;
+  position: absolute;
+  top: -10px;
 }
 
 .progress-fill {
