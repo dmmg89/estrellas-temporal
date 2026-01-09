@@ -244,8 +244,8 @@ const getPercentage = (score: number) => Math.round(score * 100);
 }
 
 .icon-circle {
-  width: 28px;
-  height: 28px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -258,7 +258,7 @@ const getPercentage = (score: number) => Math.round(score * 100);
 }
 
 .item-icon {
-  width: 16px;
-  height: 16px;
+  width: 10px;
+  height: 10px;
 }
 </style>

@@ -24,7 +24,9 @@ import type { AtributeModel } from "../models/AtributeItemModel.ts";
 // import AtributosCard from "../components/AtributosCard.vue";
 import ProgressBar from "../components/ProgressBar.vue";
 import LoadingLottie from "../components/LoadingLottie.vue";
+import SchemaCard from "../components/SchemaCard.vue";
 import {useRoute, useRouter} from "vue-router";
+
 
 const route = useRoute();
 const router = useRouter();
@@ -94,6 +96,8 @@ watch(
 
         <ProgressBar v-if="atributesList" :items="atributesList" />
         <!-- <AtributosCard :atributos="atributesList" /> -->
+
+        <SchemaCard />
 
         <RankingList title="Regiones" :week="week" :items="rankingList" />
       </div>
