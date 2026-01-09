@@ -24,10 +24,10 @@ const nombreFormateado = computed(() => {
 
   if (!props.item.nombre) return "";
   return props.item.nombre
-      .toLowerCase()
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 });
 
 const formatNumber = (num: number) => {
@@ -45,7 +45,10 @@ const esquemaSemanas = computed(() => {
 });
 
 onMounted(async () => {
-  const url = `https://www.productividadzeus.com/concursos/fotos/colaboradores/?code=${item.idEmpleado}`;
+  const numero = props.item.idEmpleado;
+  const url = `https://www.productividadzeus.com/concursos/fotos/colaboradores/?code=${String(
+    numero
+  )}`;
   const res = await fetch(url);
   const data = await res.json();
   fotoEmp.value = data.file_base64;
@@ -63,7 +66,12 @@ onMounted(async () => {
             alt="Foto Empleado"
           />
 
-          <img v-else src="../assets/icons/user.svg" alt="Sin foto" />
+          <img
+            class="user"
+            v-else
+            src="../assets/icons/user.svg"
+            alt="Sin foto"
+          />
         </div>
       </div>
       <div class="info-equipo">
@@ -108,8 +116,8 @@ onMounted(async () => {
 #equipo {
   width: 100%;
   background-color: #ffffff;
-  box-shadow: 0px 16px 20px #80808021;
-  margin: 15px 0;
+  box-shadow: 0px 3px 6px #00000029 !important;
+  margin: 10px 0;
   border-radius: 15px;
   cursor: pointer;
   color: #333;
@@ -155,6 +163,10 @@ onMounted(async () => {
         img {
           width: 100%;
           object-fit: cover;
+
+          &.user {
+            margin-bottom: -5px;
+          }
         }
       }
     }
