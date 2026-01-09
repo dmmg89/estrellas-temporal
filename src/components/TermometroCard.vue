@@ -213,8 +213,8 @@ const metrics = computed<MetricData[]>(() => {
 }
 
 .icon-svg-img {
-  width: 28px;
-  height: 28px;
+  width: 21px;
+  height: 21px;
   /* Nota: con <img> no puedes cambiar el color del SVG con CSS fácilmente */
 }
 .header-section {
@@ -331,7 +331,7 @@ const metrics = computed<MetricData[]>(() => {
   color: #9ca3af;
 }
 .limit-label.start {
-  left: -35px;
+  left: -45px;
 }
 .limit-label.end {
   right: -45px;
@@ -404,8 +404,8 @@ const metrics = computed<MetricData[]>(() => {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 28px;
-  height: 28px;
+  width: 19px;
+  height: 19px;
   border-radius: 50%;
   border: 2px solid white;
   display: flex;
@@ -417,8 +417,8 @@ const metrics = computed<MetricData[]>(() => {
 }
 
 .icon-svg {
-  width: 16px;
-  height: 16px;
+  width: 25px;
+  height: 25px;
   color: white;
 }
 

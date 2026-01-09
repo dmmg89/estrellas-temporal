@@ -145,6 +145,7 @@ const handleViewMore = () => {
   line-height: 1.5;
   color: #555;
   font-weight: 400;
+  text-align: left;
 }
 
 .separator {
