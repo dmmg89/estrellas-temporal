@@ -12,6 +12,7 @@ interface Props {
 
 const props = defineProps<Props>();
 
+
 const store = useStateStore();
 
 type RankingItemNumeric = Omit<RankingItemModel, "calificacion"> & {
@@ -74,8 +75,6 @@ const handleClick = async (item: RankingItemNumeric) => {
 
   store.setLoading(true);
 
-  store.setCeco(item.ceco);
-  store.setLevel(item.nivel);
 
   const routesMap: Record<number, string> = {
     1: ProfilePath.divisionScreen,
@@ -87,6 +86,8 @@ const handleClick = async (item: RankingItemNumeric) => {
   };
 
   const targetPath = routesMap[item.nivel];
+  store.drillDown(item.nivel,item.ceco,targetPath);
+
 
   if (targetPath) {
     await router.push(targetPath);

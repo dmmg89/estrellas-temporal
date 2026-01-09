@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import {onActivated, onMounted, ref, watch} from "vue";
 import TrimScoreCard from "../components/TrimScoreCard.vue";
 import WeekScoreBar from "../components/WeekScoreBar.vue";
 import RankingList from "../components/RankingList.vue";
@@ -38,6 +38,8 @@ const atributesList = ref<AtributeModel | null>(null);
 const termometerList = ref<AtributeModel | null>(null);
 
 const loadData = async () => {
+  console.log("Datos: " + ceco.value + '  ' + week.value + ' ' + level.value);
+
   try {
     store.setLoading(true);
 
@@ -61,6 +63,10 @@ const loadData = async () => {
     store.setLoading(false);
   }
 };
+
+onActivated(() => {
+  loadData();
+});
 
 watch(
   [week, level, ceco],

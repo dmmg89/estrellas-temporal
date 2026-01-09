@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import {onActivated, onMounted, ref, watch} from "vue";
 import TrimScoreCard from "../components/TrimScoreCard.vue";
 import WeekScoreBar from "../components/WeekScoreBar.vue";
 import RankingList from "../components/RankingList.vue";
@@ -24,7 +24,10 @@ import type { AtributeModel } from "../models/AtributeItemModel.ts";
 // import AtributosCard from "../components/AtributosCard.vue";
 import ProgressBar from "../components/ProgressBar.vue";
 import LoadingLottie from "../components/LoadingLottie.vue";
+import {useRoute, useRouter} from "vue-router";
 
+const route = useRoute();
+const router = useRouter();
 const store = useStateStore();
 const { isLoading, week, level, ceco } = storeToRefs(store);
 
@@ -34,6 +37,9 @@ const rankingList = ref<RankingModel | null>(null);
 const atributesList = ref<AtributeModel | null>(null);
 
 const loadData = async () => {
+  console.log("Datos: " + ceco.value + '  ' + week.value + ' ' + level.value);
+
+  if (!ceco.value) return;
   try {
     store.setLoading(true);
 
@@ -54,6 +60,10 @@ const loadData = async () => {
     store.setLoading(false);
   }
 };
+
+onActivated(() => {
+  loadData();
+});
 
 watch(
   [week, level, ceco],
