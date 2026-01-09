@@ -20,12 +20,14 @@ const props = defineProps<{
 const fotoEmp = ref("");
 
 const nombreFormateado = computed(() => {
+  if (props.item.idEmpleado === 0) return "Vacante";
+
   if (!props.item.nombre) return "";
   return props.item.nombre
-    .toLowerCase()
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
+      .toLowerCase()
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
 });
 
 const formatNumber = (num: number) => {

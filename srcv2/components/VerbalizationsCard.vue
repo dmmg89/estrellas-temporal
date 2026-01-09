@@ -84,7 +84,6 @@ const setFilter = (type: 1 | 2) => {
 
 <style scoped>
 .verbalizations-card {
-  font-family: system-ui, -apple-system, sans-serif;
   max-width: 500px;
   background-color: white;
   padding: 1.5rem;
@@ -198,7 +197,6 @@ const setFilter = (type: 1 | 2) => {
   text-align: center;
   color: #9CA3AF;
   padding: 2rem;
-  font-style: italic;
 }
 
 .list-item {

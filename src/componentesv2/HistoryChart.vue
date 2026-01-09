@@ -109,11 +109,20 @@ const chartOptions = computed<ChartOptions<"line">>(() => {
         bodyColor: "#666",
         borderColor: "#ddd",
         borderWidth: 1,
+
+        // --- CAMBIO 1: Eliminar el cuadro/círculo de color ---
+        displayColors: false,
+
+        // --- CAMBIO 2 (Opcional): Ocultar la "Meta" del tooltip para que solo salga la calificación ---
+        filter: function(tooltipItem) {
+          return tooltipItem.datasetIndex === 0; // 0 es la línea azul (Calificación), 1 es la Meta
+        },
       },
       annotation: {
         annotations: {
           maxLine: {
             type: "line",
+            // Si quieres que esto sea dinámico, reemplaza 5.0 por una variable
             yMin: 5.0,
             yMax: 5.0,
             borderColor: COLORS.rojo,
@@ -159,7 +168,7 @@ const chartOptions = computed<ChartOptions<"line">>(() => {
         max: 5.0,
         grid: {
           color: function (context) {
-            if (context.tick.value === 5.0) return "transparent"; // <- última línea
+            if (context.tick.value === 5.0) return "transparent";
             return COLORS.gridLines;
           },
           tickLength: 3,

@@ -71,7 +71,7 @@ watch(
       <div class="body-content">
         <TrimScoreCard
           :trim-score="scoreData.califTrimestre"
-          zone="Corporativo"
+          zone="RED"
           :current-week="week"
         />
 

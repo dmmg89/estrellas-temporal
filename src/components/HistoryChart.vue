@@ -127,6 +127,8 @@ const chartOptions = computed<ChartOptions<"line">>(() => {
         bodyColor: "#666",
         borderColor: "#ddd",
         borderWidth: 1,
+        usePointStyle: true, // 1. Cambia el cuadrado por el estilo del punto (círculo)
+        boxWidth: 8,
       },
       annotation: {
         annotations: {

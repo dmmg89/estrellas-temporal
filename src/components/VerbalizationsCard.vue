@@ -23,7 +23,7 @@ const displayTotal = computed(() => props.totalCount ?? props.items.length);
 
 const handleViewMore = () => {
 
-  emit('clickMore');
+ isExpanded.value = !isExpanded.value;
 };
 </script>
 
@@ -68,7 +68,6 @@ const handleViewMore = () => {
 </template>
 
 <style scoped>
-/* Contenedor Principal */
 .card-container {
   background-color: #ffffff;
   border-radius: 12px;
