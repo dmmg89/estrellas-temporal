@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed } from 'vue';
+import type { EmpleadoData } from '../models/EmpleadoData.ts';
 
 // Definimos la interfaz para los elementos de la lista
 interface CollaboratorItem {
@@ -8,15 +9,34 @@ interface CollaboratorItem {
   weeks: number;
 }
 
-// Datos simulados basados en la imagen
-const collaboratorItems = ref<CollaboratorItem[]>([
-  { id: 1, text: 'Colaborador en esquema', weeks: 2 },
-  { id: 2, text: 'Colaborador en esquema', weeks: 3 },
-  { id: 3, text: 'Colaborador en esquema', weeks: 5 },
-]);
+const props = defineProps<{
+  employees?: EmpleadoData[] | null;
+  navigate: boolean;
+}>();
+
+// Transformar los datos de la API al formato que necesita el componente
+const collaboratorItems = computed<CollaboratorItem[]>(() => {
+  if (!props.employees || props.employees.length === 0) {
+    return [];
+  }
+
+  // Filtrar solo los empleados que tienen métricas de semana
+  const employeesWithMetrics = props.employees.filter(
+    (emp) => emp.metricas_semana
+  );
+
+  // Transformar a CollaboratorItem
+  return employeesWithMetrics.map((emp, index) => ({
+    id: emp.idEmpleado || index + 1,
+    text: 'Colaborador en esquema',
+    // Usar la semana de las métricas, o un valor por defecto
+    weeks: emp.metricas_semana?.semana || 0,
+  }));
+});
 
 // Función para manejar el click en un elemento (opcional)
 const handleItemClick = (item: CollaboratorItem) => {
+  if( !props.navigate) return;
   console.log('Click en:', item);
 };
 
@@ -45,7 +65,7 @@ const handleInfoClick = () => {
         </svg>
       </button>
     </div>
-
+  
     <p class="description">
       Acompañamiento para mejorar el desempeño y alinearse al modelo <i>Somos Extraordinarios</i>.
     </p>
@@ -65,13 +85,15 @@ const handleInfoClick = () => {
         
         <div class="item-content">
           <span class="item-text">
-            {{ item.text }} (<strong>{{ item.weeks }} sem</strong>)
+           ({{ item.id }}) {{ item.text }} (<strong>{{ item.weeks }} sem</strong>)
           </span>
         </div>
-
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon-chevron" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="9 18 15 12 9 6"></polyline>
-        </svg>
+ 
+        <div v-if="props.navegate" >
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-chevron" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
       </div>
     </div>
   </div>
