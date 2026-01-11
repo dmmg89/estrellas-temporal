@@ -215,7 +215,6 @@ const metrics = computed<MetricData[]>(() => {
 .icon-svg-img {
   width: 21px;
   height: 21px;
-  /* Nota: con <img> no puedes cambiar el color del SVG con CSS fácilmente */
 }
 .header-section {
   display: flex;
@@ -233,7 +232,6 @@ const metrics = computed<MetricData[]>(() => {
   text-justify: inter-word;
 }
 .subtitle {
-  font-family: "Poppins", sans-serif;
   font-size: 18px;
   font-weight: 600;
   color: #374151;
@@ -241,7 +239,6 @@ const metrics = computed<MetricData[]>(() => {
 }
 
 .info-icon {
-  font-family: "Times New Roman", Times, serif; /* Fuente Serif con remates */
   font-style: italic; /* Cursiva obligatoria */
   font-weight: 700; /* Negrita para que resalte el cuerpo de la 'i' */
   font-size: 20px;
@@ -321,7 +318,6 @@ const metrics = computed<MetricData[]>(() => {
   margin-left: 40px;
 }
 
-/* Etiquetas de extremos 0% y 100% */
 .limit-label {
   position: absolute;
   top: 50%;
@@ -337,7 +333,6 @@ const metrics = computed<MetricData[]>(() => {
   right: -45px;
 }
 
-/* Grupo de Meta 80% Superior */
 .meta-marker-group {
   position: absolute;
   left: 80%;

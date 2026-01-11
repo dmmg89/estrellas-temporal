@@ -59,7 +59,7 @@ const handleViewMore = () => {
       </div>
     </div>
 
-    <div class="card-footer">
+    <div v-if="displayTotal > 5" class="card-footer">
       <button class="btn-ver-mas" @click="handleViewMore">
         Ver más
       </button>

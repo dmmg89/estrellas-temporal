@@ -126,13 +126,23 @@ watch(
           <div class="ocultar" @click="mostrarTeam = !mostrarTeam">
             <div class="tit-col">
               <span class="tit">Mi Equipo</span>
-              <!-- <span class="sub">Aqui Alan</span> -->
             </div>
-            <span class="btn"
-              >{{ teamFiltrado.length }}
-              <span v-if="teamFiltrado.length > 1"> Personas</span>
-              <span v-else> Persona</span></span
-            >
+
+            <span class="btn">
+      {{ teamFiltrado.length }}
+      <span v-if="teamFiltrado.length > 1"> Personas</span>
+      <span v-else> Persona</span>
+
+      <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="arrow-icon"
+          :class="{ 'is-open': mostrarTeam }"
+      >
+        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+      </svg>
+      </span>
           </div>
 
           <transition name="slide">
@@ -242,5 +252,16 @@ watch(
 .slide-leave-active {
   overflow: hidden;
   transition: all 0.3s ease;
+}
+
+.arrow-icon {
+  width: 18px;
+  height: 18px;
+  margin-left: 6px;
+  transition: transform 0.3s ease;
+}
+
+.is-open {
+  transform: rotate(180deg);
 }
 </style>

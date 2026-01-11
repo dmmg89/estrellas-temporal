@@ -184,6 +184,7 @@ const feedbackMessage = computed(() => {
 }
 
 .zone-title {
+  max-width: 80%;
   margin: 0;
   margin-left: -25px;
   font-size: 15px;
